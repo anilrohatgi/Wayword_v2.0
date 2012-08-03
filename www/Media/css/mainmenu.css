@@ -1,0 +1,180 @@
+/* NEW */
+.mainenu_item {}
+.mainmenu_hot {}
+.mainmenu_events {}
+.mainmenu_friends {}
+.mainmenu_inbox {}
+.mainmenu_calendar {}
+.mainmenu_bio {}
+.mainmenu_cityVert {}
+.mainmenu_cityHoriz {}
+.mainmenu_bioPic {}
+
+.mainmenu
+{
+    background-position: center;
+	background-image:url(../main_menu.jpg);
+}
+
+.mainmen_item img:active
+{
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    z-index:5;
+}
+
+.mainmenu_hot img
+{
+	position:absolute !important;
+	top: 110px;
+	right:0px;
+	width:165px;
+	height:50px;
+	SRC="..\hot.png";
+}
+
+.mainmenu_hot img:active
+{
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    z-index:5;
+}
+
+.mainmenu_events img
+{
+	position:absolute !important;
+	top: 165px;
+	right:0px;
+	width:165px;
+	height:50px;
+	SRC="..\events.png";
+}
+
+.mainmenu_events img:active
+{
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    z-index:5;
+}
+
+.mainmenu_friends img
+{
+    position:absolute !important;
+	top: 195px;
+	right:0px;
+	width:165px;
+	height:35px;
+	SRC="..\friends.png";
+}
+
+.mainmenu_friends img:active
+{
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    z-index:5;
+}
+
+.mainmenu_calendar img
+{
+	position:absolute !important;
+	top: 220px;
+	right:0px;
+	width:165px;
+	height:50px;
+	SRC="..\calendar.png"
+}
+
+.mainmenu_calendar img:active
+{
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    z-index:5;
+}
+
+.mainmenu_inbox img
+{
+	position:absolute !important;
+	top: 235px;
+	right:0px;
+	width:165px;
+	height:35px;
+	SRC="..\inbox.png";
+    
+}
+
+.mainmenu_inbox img:active
+{
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    z-index:5;
+}
+
+.mainmenu_bio img
+{
+	position:absolute !important;
+	top: 275px;
+	right:0px;
+	width:165px;
+	height:50px;
+	SRC="..\bio.png";
+}
+
+.mainmenu_bio img:active
+{
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    z-index:5;
+}
+
+
+.mainmenu_cityVert img
+{
+	position:absolute !important;
+	top: 100px;
+	left:5px;
+	width:140px;
+	height:240px;
+	SRC="..\city_vertical.png";
+    
+    -moz-box-shadow: 2px 4px 6px  rgba(0,0,0,0.5);
+    -webkit-box-shadow: 2px 4px 6px  rgba(0,0,0,0.5);
+    box-shadow: 2px 4px 6px  rgba(0,0,0,0.5);
+}
+
+
+.mainmenu_cityHoriz img
+{
+	position:absolute !important;
+	bottom:0px;
+	left:0px;
+	width:320px;
+	height:130px;
+	SRC="..\city_horizontal.png";
+    
+}
+
+.mainmenu_bioPic img
+{
+	position:absolute !important;
+	top:320px;
+	left:245px;
+	width:55px;
+	height:65px;
+	SRC=..\profile.png
+	transform:rotate(30deg);
+	-ms-transform:rotate(30deg); /* IE 9 */
+	-moz-transform:rotate(30deg); /* Firefox */
+	-webkit-transform:rotate(30deg); /* Safari and Chrome */
+	-o-transform:rotate(30deg); /* Opera */
+    
+    -moz-box-shadow: 2px 4px 6px  rgba(0,0,0,0.5);
+    -webkit-box-shadow: 2px 4px 6px  rgba(0,0,0,0.5);
+    box-shadow: 2px 4px 6px  rgba(0,0,0,0.5);
+}

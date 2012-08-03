@@ -1,0 +1,99 @@
+
+/* MAINMENU */
+
+.background
+{
+	background-image: main_menu.jpg
+}
+
+
+.mainmenu_hot
+{
+	position:absolute !important;
+	top: 115px;
+	right:0px;
+	width:165px;
+	height:35px;
+	SRC=..\hot.png"
+}
+
+.mainmenu_events 
+{
+	position:absolute !important;
+	top: 155px;
+	right:0px;
+	width:165px;
+	height:35px;
+	SRC=..\events.png"
+}
+
+.mainmenu_friends 
+{
+    position:absolute !important;
+	top: 195px;
+	right:0px;
+	width:165px;
+	height:35px;
+	SRC=..\friends.png"
+}
+
+.mainmenu_inbox 
+{
+	position:absolute !important;
+	top: 235px;
+	right:0px;
+	width:165px;
+	height:35px;
+	SRC=..\inbox.png"
+    
+}
+
+.mainmenu_bio
+{
+	position:absolute !important;
+	top: 275px;
+	right:0px;
+	width:165px;
+	height:35px;
+	SRC=..\bio.png"
+}
+
+
+.mainmenu_cityVertical
+{
+	position:absolute !important;
+	top: 100px;
+	left:5px;
+	width:140px;
+	height:240px;
+	SRC=..\city_vertical.png"
+    
+}
+
+
+.mainmenu_cityHorizontal
+{
+	position:absolute !important;
+	bottom:0px;
+	left:0px;
+	width:320px;
+	height:130px;
+	SRC=..\city_horizontal.png"
+    
+}
+
+.mainmenu_bioPHOTO
+{
+	position:absolute !important;
+	top:315px;
+	left:245px;
+	width:55px;
+	height:65px;
+	SRC=..\profile.png
+	transform:rotate(30deg);
+	-ms-transform:rotate(30deg); /* IE 9 */
+	-moz-transform:rotate(30deg); /* Firefox */
+	-webkit-transform:rotate(30deg); /* Safari and Chrome */
+	-o-transform:rotate(30deg); /* Opera */
+
+}

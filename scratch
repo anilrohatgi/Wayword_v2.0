@@ -1,0 +1,52 @@
+/*htmlStr += '<div id="magazine">';
+	htmlStr += '<div> Page 1 </div>';
+	htmlStr += '<div> Page 2 </div>';
+	htmlStr += '<div> Page 3 </div>';
+    htmlStr += '</div>';
+    htmlStr += '<script type="text/javascript">';
+    htmlStr += '$(window).ready(function()'; 
+    htmlStr += '                {';
+    htmlStr += '                $("#magazine").turn(';
+    htmlStr += '                                    {';
+    htmlStr += '                                    display: "single",';
+    htmlStr += '                                    acceleration: true,';
+    htmlStr += '                                    gradients: !$.isTouch,';
+    htmlStr += '                                    elevation:50,';
+    htmlStr += '                                    when: ';
+    htmlStr += '                                    {';
+    htmlStr += '                                    turned: function(e, page)';
+    htmlStr += '                                    {';
+    htmlStr += '                                    }';
+    htmlStr += '                                    }';
+    htmlStr += '                                    });';
+    htmlStr += '                });';
+    htmlStr += '$(window).bind("keydown", function(e)';
+    htmlStr += '               {';
+    htmlStr += '               if (e.keyCode==37)';
+    htmlStr += '               $("#magazine").turn("previous");';
+    htmlStr += '               else if (e.keyCode==39)';
+    htmlStr += '               $("#magazine").turn("next");';
+    htmlStr += '               });';
+    htmlStr += '</script>';
+    htmlStr += '</body>';*/
+    
+    
+/*htmlStr  ='    <div id="book">';
+htmlStr +='        <canvas id="pageflip-canvas"></canvas>';
+htmlStr +='        <div id="pages">';
+htmlStr +='            <section>';
+htmlStr +='                <div>';
+htmlStr +='                    <h2>History</h2>';
+htmlStr +='                    <p>Canvas was initially introduced by Apple</p>';
+htmlStr +='                </div>';
+htmlStr +='            </section>';
+htmlStr +='            <section>';
+htmlStr +='                <div>';
+htmlStr +='                    <h2>Usage</h2>';
+htmlStr +='                    <p>Canvas consists of a drawable region defined</p>';
+htmlStr +='                </div>';
+htmlStr +='            </section>';
+htmlStr +='        </div>';
+htmlStr +='    </div>';
+htmlStr +='    <script type="text/javascript" src="src/helper/pageflip.js"></script>';
+*/
