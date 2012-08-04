@@ -12,7 +12,7 @@ function NewEventLayer()
         id      : 'newEventLayer',
         layout  : 'card',
         iconCls : 'doc_new',
-        cls     : 'noEvent',
+        cls     : 'blankPage',
 
         items: [MainApp.app.newEventForm.screen, 
                 MainApp.app.newEventMenu.screen,

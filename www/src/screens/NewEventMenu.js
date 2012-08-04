@@ -80,6 +80,7 @@ function CreateNewEventMenu()
     
     var screen = new Ext.Panel(
     {
+        cls   : 'blankPage',
         layout: 
         {
             pack: 'justify',

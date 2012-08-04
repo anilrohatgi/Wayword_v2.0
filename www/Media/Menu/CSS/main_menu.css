@@ -130,6 +130,20 @@
     }
 }
 
+.menu_panelwho img:active
+{
+    opacity: 0.5;
+}
+
+.menu_panelwhere img:active
+{
+    opacity: 0.5;
+}
+
+.menu_panelwhen img:active
+{
+    opacity: 0.5;
+}
 
 
 

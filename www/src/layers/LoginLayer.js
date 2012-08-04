@@ -11,6 +11,7 @@ function LoginLayer()
         title   :'',
         id      : 'loginLayer',
         layout  : 'card',
+        cls     : 'blankPage',
         fullscreen : true,
 
         items: [MainApp.app.loginScreen.screen, MainApp.app.appLayer.layer],

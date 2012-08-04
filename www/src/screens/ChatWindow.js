@@ -92,9 +92,17 @@ function CreateChatWindow()
         }
     });
 
+    //message template
+    var messageCss  = '<tpl for=".">';
+    messageCss      +='<div class="bubbledLeft">';
+    messageCss          +='<b>{user}</b>: {message}';
+    messageCss      +='</div></tpl>';
+
     this.messageList = Ext.create('Ext.List', 
     {
-        itemTpl: '<b>{user}</b>: {message} ',
+        cls     : 'blankPage',
+        itemTpl : messageCss,
+        
         data: 
         [{ 
             user: 'Phil',
@@ -106,11 +114,10 @@ function CreateChatWindow()
     var screen = Ext.create('Ext.Container', 
     { 
         fullscreen: true,
-        layout: 'vbox',
+        layout  : 'vbox',
         items: 
         [this.localHeader,
-        {
-            
+        {   
             xtype: 'panel',
             layout: 'fit',
             flex: 7,
@@ -165,7 +172,7 @@ function LoadChat()
                 MainApp.app.chatWindow.messageList.getStore().add(
                 {
                       user   : (message.data.user || nobody),
-                      message: message.data.message 
+                      message: message.data.message
                 });
 
                 MainApp.app.chatWindow.scrollToBottom();
@@ -191,14 +198,13 @@ function LoadChat()
         function(messages) 
         {
             MainApp.app.chatWindow.messageList.getStore().removeAll();
-            console.log(messages);
             for (m in messages) 
             {
                 var message = messages[m];
                 MainApp.app.chatWindow.messageList.getStore().add(
                 {
                     user: (message.data.user || nobody),
-                    message: message.data.message 
+                    message: message.data.message,
                 });
             }
 
