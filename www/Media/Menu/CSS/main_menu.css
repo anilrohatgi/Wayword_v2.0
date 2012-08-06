@@ -4,7 +4,7 @@
 .menu_who
 {
 	position:absolute;
-	top: 325px;
+	top: 320px;
 	left: 214px;
 	width:105px;
 	height:40px;
@@ -15,7 +15,7 @@
 .menu_where
 {
 	position:absolute;
-	top: 325px;
+	top: 320px;
 	left: 1px;
 	width:105px;
 	height:40px;
@@ -26,7 +26,7 @@
 .menu_when
 {
 	position:absolute;
-	top:325px;
+	top:320px;
 	left: 108px;
 	width:105px;
 	height:40px;
@@ -146,6 +146,57 @@
 }
 
 
+.check_where
+{
+	float:left;
+	position:absolute;
+	top:0px;
+	left:0px;
+	width:107px;
+	height:390px;
+	SRC="check_where.png";
+	overflow:hidden;
+	z-index:5;
+}
+
+.check_when
+{
+	float:left;
+	position:absolute;
+	top:0px;
+	left:107px;
+	width:106px;
+	height:390px;
+	SRC="check_when.png";
+	overflow:hidden;
+	z-index:6;
+}
+
+.check_who 
+{
+	float:left;
+	position:absolute;
+	top:0px;
+	left:213px;
+	width:107px;
+	height:390px;
+	SRC="check_who.png";
+	overflow:hidden;
+	z-index:7;
+}
 
 
+.check_where:active
+{
+    opacity: 0.5;
+}
 
+.check_when:active
+{
+    opacity: 0.5;
+}
+
+.check_who:active
+{
+    opacity: 0.5;
+}

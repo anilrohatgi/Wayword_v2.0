@@ -9,6 +9,7 @@ function NewEventMenu()
     //Create event board...
     this.create         = CreateNewEventMenu;
     this.createHandler  = CreateNewMenuHandler;
+    this.reset          = ResetNewEventMenu;
     this.refresh        = RefreshMenu;
     this.goTo           = GoToEventMenu;
     
@@ -107,6 +108,13 @@ function RefreshMenu()
     htmlStr    += '<img src="Media/Menu/menu_buttons/who.png" />';
     htmlStr    += '</div>';
     
+    if (MainApp.app.inviteList.ready)
+    {
+        htmlStr    += '<div class="check_who">';
+        htmlStr    += '<img src="Media/Menu/panels/check_who.png" class="menu_panelwho_img"/>';
+        htmlStr    += '</div>';
+    }
+    
     //WHERE
     htmlStr    += '<div class="menu_panelwhere">';
     htmlStr    += '<img src="Media/Menu/panels/where_a.jpg" class="menu_panelwhere_img" />';
@@ -116,6 +124,13 @@ function RefreshMenu()
     htmlStr    += '<img src="Media/Menu/menu_buttons/where.png" />';
     htmlStr    += '</div>';
     
+    if (MainApp.app.eventMap.ready)
+    {
+        htmlStr    += '<div class="check_where">';
+        htmlStr    += '<img src="Media/Menu/panels/check_where.png" class="menu_panelwhere_img"/>';
+        htmlStr    += '</div>';
+    }
+    
     //WHEN
     htmlStr    += '<div class="menu_panelwhen">';
     htmlStr    += '<img src="Media/Menu/panels/when_a.jpg" class="menu_panelwhen_img" />';
@@ -124,6 +139,13 @@ function RefreshMenu()
     htmlStr    += '<div class="menu_when">';
     htmlStr    += '<img src="Media/Menu/menu_buttons/when.png" />';
     htmlStr    += '</div>';
+    
+    if (MainApp.app.calendarScreen.ready)
+    {
+        htmlStr    += '<div class="check_when">';
+        htmlStr    += '<img src="Media/Menu/panels/check_when.png" class="menu_panelwhen_img"/>';
+        htmlStr    += '</div>';
+    }
     
     this.screen.setHtml(htmlStr);
     
@@ -172,6 +194,18 @@ function CreateNewMenuHandler()
 
 ///////////////////////////////////////////////////////////////////////
 
+function ResetNewEventMenu()
+{
+    //Reset menu
+    MainApp.app.calendarScreen.ready = false;
+    MainApp.app.inviteList.ready     = false;
+    MainApp.app.eventMap.ready       = false;
+    
+    this.refresh();
+}
+
+///////////////////////////////////////////////////////////////////////
+
 function GoToEventMenu( dir, back, mode )
 {
     this.mode = mode;
@@ -182,6 +216,7 @@ function GoToEventMenu( dir, back, mode )
     if (dir == DIR_FORW)
     {
         MainApp.app.newEventForm.reset();
+        this.reset();
         MainApp.app.appLayer.currentLayer.animateActiveItem(this.screen, 
                                                         {type: 'slide', direction: dir});
     }

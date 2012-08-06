@@ -56,6 +56,16 @@
     padding: 0 1.2em !important;
 }
 
+.x-list .x-list-item 
+{
+   min-height: 55px;
+}
+
+.x-list-item .x-item-selected 
+{
+   min-height: 55px;
+}
+
 /*-----------------------------------------------*/
 /*                      TOC                     */
 /*---------------------------------------------*/

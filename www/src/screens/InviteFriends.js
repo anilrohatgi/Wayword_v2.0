@@ -160,12 +160,7 @@ function SubmitInvites(guid)
                                      MainApp.app.calendarScreen.dateSelect);
                                      
             MainApp.app.inviteList.makeEmails(value);
-            
-            //Reset menu
-            MainApp.app.calendarScreen.ready = false;
-            MainApp.app.inviteList.ready     = false;
-            MainApp.app.eventMap.ready       = false;
-                    
+            Mainapp.app.newEventMenu.reset();
             MainApp.app.calendarLayer.layer.goTo();
         }
     });

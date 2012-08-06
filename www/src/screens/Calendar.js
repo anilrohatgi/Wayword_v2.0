@@ -62,9 +62,14 @@ function CreateCalendarScreen()
         ui  : 'back',
         handler: function()
         {
-            if (MainApp.app.calendarScreen.back)
+            if (MainApp.app.calendarScreen.back &&  
+                MainApp.app.calendarScreen.calendar._viewMode == 'month')
             {
                 MainApp.app.calendarScreen.back.goTo(DIR_BACK);
+            }
+            else
+            {
+                MainApp.app.calendarScreen.calendar.setViewMode('month');            
             }
         }
     });
@@ -122,18 +127,21 @@ function CreateCalendarScreen()
         plugins: [this.eventMgr]
     });
     
-    this.calendar.setViewMode('month');
-    this.calendar.on('eventtap', function(event)
-    {
-         MainApp.app.eventViewer.goTo( DIR_FORW , MainApp.app.calendarScreen);
-         MainApp.app.eventViewer.viewEvent(MainApp.app.calendarScreen.store,
-                                                  event.data['guid']);
-    });
-    
     this.calendar.on('selectionchange', function( calendar, newDate, prev, eOpts )
     {
+        if (this._viewMode == 'month')
+        {
+            this.setViewMode('day');
+            var one_day= 1000*60*60*24;
+        
+            //calculate date difference
+            var delta = (newDate.getTime()- prev.getTime())/(one_day);
+            delta = Math.ceil(delta);
+        
+            this.refreshDelta(delta);
+        }
+        
         MainApp.app.calendarScreen.dateSelect = newDate;
-        console.log(MainApp.app.calendarScreen.dateSelect);
     });
     
     var screen = Ext.create('Ext.Panel', 
@@ -187,6 +195,8 @@ function PopulateCalendar( store )
 function GoToEventCalendar(dir, back, guid)
 {
     this.guid = guid;
+    
+    this.calendar.setViewMode('month');
     
     if (back) this.back = back;
     MainApp.app.appLayer.currentLayer.animateActiveItem(this.screen,

@@ -34,21 +34,18 @@ function CreateEventList()
     });
     
     var csstemp = '<tpl for=".">';
-    csstemp    += '<list_event>';
+    csstemp    += '<list_class>';
     
-    csstemp    += '<div class="list_textbox">';
-    
-    //This is what you do if it's an event
-    csstemp    += '<list_header>{place} - </list_header>';
-    csstemp    += '<list_description>{desc}</list_description>';
-
+    csstemp    += '<div class="eventlist_textbox">';
+    csstemp    += '<place>{place}</place>';
+    csstemp    += '<date>{start}</date>';
     csstemp    += '</div>';
     
-    csstemp    += '<div class="calendar_pic">';
-    csstemp    += '<calendar_event><img src="{thumb}"/>';
-    csstemp    += '</calendar_event></div>';
+    csstemp    += '<div class="eventlist_imagebox">';
+    csstemp    += '<img src="{creatorthumb}"/>';
+    csstemp    += '</div>';
     
-    csstemp    += '</list_event>';
+    csstemp    += '</list_class>';
     csstemp    += '</tpl>';
     
     var screen = Ext.create('Ext.List', 
