@@ -198,9 +198,9 @@ Ext.define('Ext.field.Text', {
     initialize: function() {
         var me = this;
 
-        me.callParent();
+        this.callParent();
 
-        me.getComponent().on({
+        this.getComponent().on({
             scope: this,
 
             keyup       : 'onKeyUp',

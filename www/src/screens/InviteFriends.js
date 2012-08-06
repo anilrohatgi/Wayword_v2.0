@@ -68,8 +68,10 @@ function CreateInviteList()
     });
 
     var csstemp = '<tpl for=".">';
+    csstemp    += '<div class="listclass">';
     csstemp    += '<div class="friend_photo"><img src="{thumb}"/></div>';
     csstemp    += '<div class="friend_name">{name}</div>';
+    csstemp    += '</div>';
     csstemp    += '</tpl>';
     
     var screen = Ext.create('Ext.List', 
@@ -146,10 +148,24 @@ function SubmitInvites(guid)
     {
         if (button == 'ok')
         {
+            MainApp.app.database.createNewEvent(
+                                MainApp.app.newEventForm.screen.getValues(),
+                                MainApp.app.eventMap.lat,
+                                MainApp.app.eventMap.lon,
+                                MainApp.app.newEventEditor.temp,
+                                "default.jpg",
+                                guid);
+                
             MainApp.app.database.checkUserin(MainApp.app.inviteList.guid,
                                      MainApp.app.calendarScreen.dateSelect);
                                      
             MainApp.app.inviteList.makeEmails(value);
+            
+            //Reset menu
+            MainApp.app.calendarScreen.ready = false;
+            MainApp.app.inviteList.ready     = false;
+            MainApp.app.eventMap.ready       = false;
+                    
             MainApp.app.calendarLayer.layer.goTo();
         }
     });

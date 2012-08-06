@@ -25,57 +25,43 @@ function CreateNewEventMenu()
     //Header for board
     this.header  = new Ext.Toolbar(
     {
-        title   : 'NEW EVENT',
+        //title   : 'NEW EVENT',
+        html : '<div class="way">Way</div><div class="word">Word</div>',
         docked  :'top',
         
-        items : 
-        [{ xtype:'spacer' },
-        {
-            text    : 'Post',
-            ui      : 'action',
-            align   : 'right',
-            handler: function () 
+        items : []                               
+    });
+    
+    this.submitButton = Ext.create('Ext.Button', 
+    {
+        text    : 'CREATE!',
+        ui      : 'action',
+        docked  : 'bottom',
+        handler: function () 
+        {            
+            if (MainApp.app.calendarScreen.ready &&
+                MainApp.app.inviteList.ready     &&
+                MainApp.app.eventMap.ready)
             {
-                var thumb = "default.jpg";
-                
-                if (MainApp.app.calendarScreen.ready &&
-                    MainApp.app.inviteList.ready     &&
-                    MainApp.app.eventMap.ready)
-                {
-                        //Create a new event
-                        var userid  = MainApp.app.database.getUserId();
-                        var count   = window.localStorage.getItem("chatCount");
-                        
-                        if (!count)
-                        {
-                            count = 0;
-                        }
-                        
-                        var guidStr = userid + '' + count;
-                        var guid    = parseInt(guidStr);
-                        console.log(guid);
-                        
-                        count++;
-                        window.localStorage.setItem("chatCount", count);
-                        
-                        MainApp.app.database.createNewEvent(
-                                    MainApp.app.newEventForm.screen.getValues(),
-                                    MainApp.app.eventMap.lat,
-                                    MainApp.app.eventMap.lon,
-                                    MainApp.app.newEventEditor.temp,
-                                    thumb,
-                                    guid);
-                                    
-                        //Send invites
-                        MainApp.app.inviteList.submit(guid);
-                        
-                        //Reset menu
-                        MainApp.app.calendarScreen.ready = false;
-                        MainApp.app.inviteList.ready     = false;
-                        MainApp.app.eventMap.ready       = false;
-                }
+                    //Create a new event
+                    var userid  = MainApp.app.database.getUserId();
+                    var count   = window.localStorage.getItem("chatCount");
+                    
+                    if (!count)
+                    {
+                        count = 0;
+                    }
+                    
+                    var guidStr = userid + '' + count;
+                    var guid    = parseInt(guidStr);
+                    
+                    count++;
+                    window.localStorage.setItem("chatCount", count);
+                                
+                    //Send invites
+                    MainApp.app.inviteList.submit(guid);
             }
-        }]                               
+        }
     });
     
     var screen = new Ext.Panel(
@@ -93,7 +79,7 @@ function CreateNewEventMenu()
             xtype:'button',
         },
         
-        items: [this.header],
+        items: [this.header, this.submitButton],
 
         listeners:
         {
@@ -140,6 +126,18 @@ function RefreshMenu()
     htmlStr    += '</div>';
     
     this.screen.setHtml(htmlStr);
+    
+    //Check to see if you can show the submit button.
+    if (MainApp.app.calendarScreen.ready &&
+        MainApp.app.inviteList.ready     &&
+        MainApp.app.eventMap.ready)
+    {
+        this.submitButton.show();
+    }
+    else
+    {
+        this.submitButton.hide();
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -152,10 +150,7 @@ function CreateNewMenuHandler()
         delegate: 'div',
         tap: function (e,t) 
         {
-            console.log("TAP");
             var id = t.getAttribute('class');
-            
-            console.log(id);
             if (id == 'menu_panelwho_img')
             {
                 MainApp.app.inviteList.goTo(DIR_FORW, 

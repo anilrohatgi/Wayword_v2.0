@@ -14,11 +14,15 @@ function EventMap()
     this.goTo           = GoToEventMap;
     this.addMarker      = LoadNewMarker;
     
+    this.search         = SubmitRequest;
+    this.clearMarkers   = ClearAllMarkers;
+    this.processReqest  = ProcessPlaceRequest;
+    
     this.ready          = false;
     this.lat            = MainApp.app.locationUtil.curlat, 
     this.lon            = MainApp.app.locationUtil.curlon;
     
-    this.screen     = this.create();
+    this.screen         = this.create();
  }
 
 ///////////////////////////////////////////////////////////////////////
@@ -75,18 +79,19 @@ function CreateEventMap()
     {
         name : 'searchloc',
         placeHolder: 'Search location',
-        
-        poll : function()
+        flex    : 7,
+    });
+    
+    this.submitButton = Ext.create('Ext.Button', 
+    {
+        iconCls : 'search',
+        iconMask: true,
+        text    : 'Send',
+        ui      : 'confirm',
+        flex    : 1,
+        handler : function()
         {
-            if (MainApp.app.eventMap.autocomplete)
-            {
-                if (MainApp.app.eventMap.autocomplete.getPlace())
-                {
-                    console.log("FOUND PLACE!");
-                }
-            }
-            
-            setTimeout(MainApp.app.eventMap.searchField.poll, 1000/50);
+            MainApp.app.eventMap.search(MainApp.app.eventMap.searchField.getValue(), false);
         }
     });
     
@@ -118,6 +123,9 @@ function CreateEventMap()
         }
     });
     
+    this.markerArray = [];
+    this.infoPop = new google.maps.InfoWindow();
+    
     var screen = new Ext.Panel(
     {
         fullscreen: true,
@@ -128,7 +136,7 @@ function CreateEventMap()
         {
             flex : 1,
             xtype: 'toolbar',
-            items:[this.searchField]
+            items:[this.searchField, this.submitButton]
         }, 
         this.map],
 
@@ -136,8 +144,7 @@ function CreateEventMap()
         {
             activate:function()
             {
-                MainApp.app.eventMap.createAutoComp();
-            },
+            }
         },
     });
     
@@ -176,8 +183,87 @@ function CreateAutoComplete()
               location : place.name
         });
     });
+}
+
+///////////////////////////////////////////////////////////////////////
+
+function SubmitRequest(name, useKeyword)
+{
+    var curLoc = new google.maps.LatLng(MainApp.app.locationUtil.curlat,
+                                         MainApp.app.locationUtil.curlon);
+    var request = 
+    {
+        location: curLoc,
+        radius: '50000',
+        name : name
+    };
     
-    //MainApp.app.eventMap.searchField.poll();
+    if (useKeyword)
+    {
+        request.keyword = name;
+    }
+    
+    this.clearMarkers();
+
+    service = new google.maps.places.PlacesService(this.map.getMap());
+    service.search(request, this.processReqest);
+}
+
+///////////////////////////////////////////////////////////////////////
+
+function ClearAllMarkers()
+{
+    if (this.markerArray)
+    {
+        for (var i = 0; i < this.markerArray.length; i++ ) 
+        {
+          this.markerArray[i].setMap(null);
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////////
+
+function ProcessPlaceRequest(results, status)
+{
+    if (status == google.maps.places.PlacesServiceStatus.OK) 
+    {
+        for (var i = 0; i < results.length; i++) 
+        {
+            var place = results[i];
+            
+            var placeLoc = place.geometry.location;
+            var marker = new google.maps.Marker(
+            {
+                map: MainApp.app.eventMap.map.getMap(),
+                position: place.geometry.location
+            });
+            
+            MainApp.app.eventMap.markerArray.push(marker);
+
+            google.maps.event.addListener(marker, 'click', function() 
+            {
+                var bubble = place.name;
+                MainApp.app.eventMap.infoPop.setContent(bubble);
+                MainApp.app.eventMap.infoPop.open(MainApp.app.eventMap.map.getMap(), 
+                                                  this);
+                
+                MainApp.app.eventMap.lat = place.geometry.location.Ya;
+                MainApp.app.eventMap.lon = place.geometry.location.Za;
+
+                MainApp.app.newEventForm.screen.setValues(
+                {
+                      location : place.name
+                });
+            });
+        }
+    }
+    else if (status == google.maps.places.PlacesServiceStatus.ZERO_RESULTS)
+    {
+        //Try by keyword
+        console.log("trying keyword");
+        MainApp.app.eventMap.search(MainApp.app.eventMap.searchField.getValue(), true);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////

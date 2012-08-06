@@ -68,7 +68,9 @@ function CreateContactsList()
     });
 
     var csstemp = '<tpl for=".">';
+    csstemp    += '<div class="listclass">';
     csstemp    += '<div class="friend_name">{emails}</div>';
+    csstemp    += '</div>';
     csstemp    += '</tpl>';
     
     var screen = Ext.create('Ext.List', 

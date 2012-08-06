@@ -173,8 +173,8 @@ function CreateNearByStore()
             url : DBFile,
             reader: 
             {
-                type: 'xml',
-                record: 'items'
+                type   : 'xml',
+                record : 'items'
             },
                            
             extraParams: 
@@ -185,7 +185,7 @@ function CreateNearByStore()
                 lat : '0',
                 lon : '0',
                 dist: '25'
-            }    
+            }   
         },
         
         grouper: 
@@ -542,6 +542,7 @@ function GetEventList( filter )
     
     this.eventsNearByStore.load(function(records, operation, success) 
     {
+        console.log(success);
     }); 
 }
 

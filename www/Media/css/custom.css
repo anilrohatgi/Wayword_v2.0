@@ -29,6 +29,33 @@
     background-image: url(../noEvent.jpg);
 }
 
+.listclass
+{
+    background-position: center;
+    background-image: url(../blankPage.jpg);
+    color : white;
+    border: 0px solid #DEDEDE !important;
+}
+
+/*-----------------------------------------------*/
+/*                SENCHA OVERWRITE              */
+/*---------------------------------------------*/
+
+.x-list-normal .x-list-item .x-list-item-label 
+{
+    border: 0px solid #DEDEDE;
+}
+
+.x-list-normal .x-list-item:last-child .x-list-item-label
+{
+    border: 0px solid rgba(1,0,0,0);
+}
+
+.x-tabbar .x-tab 
+{
+    padding: 0 1.2em !important;
+}
+
 /*-----------------------------------------------*/
 /*                      TOC                     */
 /*---------------------------------------------*/
@@ -193,8 +220,8 @@
 	position:relative;
 	top;2px;
 	left:5px;
-	width:25px;
-	height:25px;
+	width:35px;
+	height:35px;
     float:left;
 	
 	-moz-box-shadow: 2px 4px 6px  rgba(0,0,0,0.5);
@@ -211,7 +238,6 @@
 	font-family: "Century Gothic", Arial, serif;
 	font-size:15px;
 	font-weight:bold;
-	
 }
 
 /*-----------------------------------------------*/

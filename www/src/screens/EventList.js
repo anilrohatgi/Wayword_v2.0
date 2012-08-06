@@ -39,17 +39,9 @@ function CreateEventList()
     csstemp    += '<div class="list_textbox">';
     
     //This is what you do if it's an event
-    csstemp    += '<tpl if="isEvent==1">';
-    csstemp    += '<list_header style="color:rgb(25,125,185);">{place} - </list_header>';
-    csstemp    += '<list_description>{desc}</list_description>';
-    csstemp    += '</tpl>';
-    
-    //This is what you do if it's NOT an event
-    csstemp    += '<tpl if="isEvent==0">';
     csstemp    += '<list_header>{place} - </list_header>';
     csstemp    += '<list_description>{desc}</list_description>';
-    csstemp    += '</tpl>';
-    
+
     csstemp    += '</div>';
     
     csstemp    += '<div class="calendar_pic">';
@@ -65,7 +57,6 @@ function CreateEventList()
         title      : 'EVENTS',
         fullscreen : true,
         cls        : 'blankPage',
-        grouped    : true,
         
         items   :[this.localHeader],
         store   : MainApp.app.database.eventsNearByStore,

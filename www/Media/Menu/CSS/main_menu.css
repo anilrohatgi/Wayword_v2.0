@@ -4,8 +4,8 @@
 .menu_who
 {
 	position:absolute;
-	top: 24px;
-	left: 1px;
+	top: 325px;
+	left: 214px;
 	width:105px;
 	height:40px;
 	SRC="who.png";
@@ -15,8 +15,8 @@
 .menu_where
 {
 	position:absolute;
-	top: 24px;
-	left: 108px;
+	top: 325px;
+	left: 1px;
 	width:105px;
 	height:40px;
 	SRC="where.png";
@@ -26,8 +26,8 @@
 .menu_when
 {
 	position:absolute;
-	top:24px;
-	left: 215px;
+	top:325px;
+	left: 108px;
 	width:105px;
 	height:40px;
 	SRC="when.png";
@@ -46,7 +46,7 @@
 	float:left;
 	position:absolute;
 	top:0px;
-	left:0px;
+	left:213px;
 	width:107px;
 	height:390px;
 	SRC="who_a.jpg";
@@ -71,7 +71,7 @@
 	float:left;
 	position:absolute;
 	top:0px;
-	left:107px;
+	left:0px;
 	width:107px;
 	height:390px;
 	SRC="where_a.jpg";
@@ -95,7 +95,7 @@
 	float:left;
 	position:absolute;
 	top:0px;
-	left:214px;
+	left:107px;
 	width:106px;
 	height:390px;
 	SRC="when_a.jpg";

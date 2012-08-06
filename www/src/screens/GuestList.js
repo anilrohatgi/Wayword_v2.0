@@ -53,8 +53,10 @@ function CreateGuestList()
     });
 
     var csstemp = '<tpl for=".">';
+    csstemp    += '<div class="listclass">';
     csstemp    += '<div class="friend_photo"><img src="{thumb}"/></div>';
     csstemp    += '<div class="friend_name">{name}</div>';
+    csstemp    += '</div>';
     csstemp    += '</tpl>';
     
     var screen = Ext.create('Ext.List', 
