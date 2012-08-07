@@ -30,7 +30,33 @@ Ext.define('EventInfo',
             
             {name: 'isEvent',   type: 'int'},
             {name: 'start',     type: 'date', dateFormat: 'c'},
+            {name: 'rsvp',      type: 'date', dateFormat: 'c'},
             {name: 'pinday',    type: 'date', dateFormat: 'c'}
+        ]
+    }
+});
+
+Ext.define('SuggestInfo',
+{
+    extend: 'Ext.data.Model',
+    config :
+    {
+        fields: 
+        [
+            {name: 'items',     type: 'auto'},
+            {name: 'desc',      type: 'string'}, 
+            {name: 'place',     type: 'string'}, 
+            {name: 'guid',      type: 'int'},
+            {name: 'eventguid', type: 'int'}, 
+            {name: 'lat',       type: 'float'}, 
+            {name: 'lon',       type: 'float'}, 
+            {name: 'address',   type: 'string'},
+         
+            {name: 'creator',        type: 'string'},
+            {name: 'creatorthumb',   type: 'string'},
+            
+            {name: 'date',      type: 'date', dateFormat: 'c'},
+            {name: 'score',     type: 'int'}
         ]
     }
 });
@@ -96,6 +122,7 @@ function DataBaseInterface()
     this.goingStore        = CreateGoingStore();
     this.templateStore     = CreateTemplateStore();
     this.contactStore      = CreateContactStore();
+    this.suggestStore      = CreateSuggestStore();
     
     this.loadingMask       = CreateLoadingScreen();  
     
@@ -112,7 +139,8 @@ function DataBaseInterface()
     this.uploadImage       = UploadImage;
     this.deleteEvent       = DeleteEvent;
     
-    this.getGoingList      = GetGoingList;
+    this.getGoingList        = GetGoingList;
+    this.getEventSuggestions = GetEventSuggestions;
     
     this.getUserFriends    = GetUserFriends;
     this.removeFriend      = BreakFriendship;
@@ -283,6 +311,40 @@ function CreateFriendStore()
             {
                 action: 'getFriends',
                 userId: '0'
+            },
+
+            reader: 
+            {
+                type:   'xml',
+                record: 'items'
+            }
+        },
+    });
+    
+    //When this store loads, we should populate the screen..
+    store.on('load', function () 
+    {
+    });
+    
+    return store;
+}
+
+///////////////////////////////////////////////////////////////////////
+
+function CreateSuggestStore()
+{
+    var store = Ext.create('Ext.data.Store',
+    {
+        model: 'SuggestInfo',
+        proxy: 
+        {
+            type: 'ajax',
+            url : DBFile,
+
+            extraParams: 
+            {
+                action: 'getSuggestions',
+                guid: '0'
             },
 
             reader: 
@@ -530,6 +592,16 @@ function GetGoingList( eventGuid )
 
 ///////////////////////////////////////////////////////////////////////
 
+function GetEventSuggestions( guid )
+{
+    this.suggestStore.getProxy().setExtraParam('guid', guid);
+    this.suggestStore.load(function(records, operation, success) 
+    {
+    });
+}
+
+///////////////////////////////////////////////////////////////////////
+
 function GetEventList( filter )
 {
     var userId = GetUserId();
@@ -542,7 +614,6 @@ function GetEventList( filter )
     
     this.eventsNearByStore.load(function(records, operation, success) 
     {
-        console.log(success);
     }); 
 }
 
@@ -594,9 +665,12 @@ function RemoveUserEvent( guid )
 
 ///////////////////////////////////////////////////////////////////////
 
-function CreateNewEvent( data, lat, lon, template, thumb, guid )
+function CreateNewEvent( data, lat, lon, template, expDate, thumb, guid )
 {
     var userid = GetUserId();
+    
+    console.log(lat);
+    console.log(lon);
     
     Ext.Ajax.request(
     {
@@ -611,6 +685,7 @@ function CreateNewEvent( data, lat, lon, template, thumb, guid )
             lat    : lat,
             lon    : lon,
             temp   : template,
+            rsvp   : expDate,
             thumb  : thumb,
             address: data.address,
             guid   : guid

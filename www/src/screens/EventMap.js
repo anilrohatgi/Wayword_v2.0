@@ -248,8 +248,8 @@ function ProcessPlaceRequest(results, status)
                 MainApp.app.eventMap.infoPop.open(MainApp.app.eventMap.map.getMap(), 
                                                   this);
                 
-                MainApp.app.eventMap.lat = place.geometry.location.Ya;
-                MainApp.app.eventMap.lon = place.geometry.location.Za;
+                MainApp.app.eventMap.lat = place.geometry.location.Xa;
+                MainApp.app.eventMap.lon = place.geometry.location.Ya;
 
                 MainApp.app.newEventForm.screen.setValues(
                 {

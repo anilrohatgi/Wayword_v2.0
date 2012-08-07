@@ -148,11 +148,18 @@ function SubmitInvites(guid)
     {
         if (button == 'ok')
         {
+            //Set the message as description
+            MainApp.app.newEventForm.screen.setValues(
+            {
+                description : value
+            });
+            
             MainApp.app.database.createNewEvent(
                                 MainApp.app.newEventForm.screen.getValues(),
                                 MainApp.app.eventMap.lat,
                                 MainApp.app.eventMap.lon,
                                 MainApp.app.newEventEditor.temp,
+                                MainApp.app.newEventMenu.rsvpDate,
                                 "default.jpg",
                                 guid);
                 
@@ -160,7 +167,7 @@ function SubmitInvites(guid)
                                      MainApp.app.calendarScreen.dateSelect);
                                      
             MainApp.app.inviteList.makeEmails(value);
-            Mainapp.app.newEventMenu.reset();
+            MainApp.app.newEventMenu.reset();
             MainApp.app.calendarLayer.layer.goTo();
         }
     });

@@ -41,14 +41,25 @@
 /*                SENCHA OVERWRITE              */
 /*---------------------------------------------*/
 
+.x-list-item x-item-selected 
+{
+   box-sizing: none;
+}
+
 .x-list-normal .x-list-item .x-list-item-label 
 {
     border: 0px solid #DEDEDE;
+    min-height: 70px;
+    top: 5px;
+
 }
 
 .x-list-normal .x-list-item:last-child .x-list-item-label
 {
     border: 0px solid rgba(1,0,0,0);
+
+
+
 }
 
 .x-tabbar .x-tab 
@@ -58,12 +69,8 @@
 
 .x-list .x-list-item 
 {
-   min-height: 55px;
-}
+   min-height: 70px;
 
-.x-list-item .x-item-selected 
-{
-   min-height: 55px;
 }
 
 /*-----------------------------------------------*/

@@ -9,6 +9,7 @@ function NewEventMenu()
     //Create event board...
     this.create         = CreateNewEventMenu;
     this.createHandler  = CreateNewMenuHandler;
+    this.submitEvent    = SubmitNewEvent;
     this.reset          = ResetNewEventMenu;
     this.refresh        = RefreshMenu;
     this.goTo           = GoToEventMenu;
@@ -33,6 +34,42 @@ function CreateNewEventMenu()
         items : []                               
     });
     
+    this.timePicker = Ext.create('Ext.Picker', 
+    {
+        doneButton: true,
+        cancelButton: true,
+        zIndex : 100,
+        hidden : true,
+        
+        toolbar: 
+        {
+            title: 'When do you want a decision by?'
+        },
+        
+        slots: 
+        [{
+            name : 'rsvp_date',
+            title: 'RSVP',
+            data : 
+            [
+                {text: '2 hrs', value: 2},
+                {text: '6 hrs', value: 6},
+                {text: '12 hrs', value: 12},
+                {text: '24 hrs', value: 24}
+            ]
+        }],
+        
+        listeners: 
+        {
+            change: function (picker, value, oldValue) 
+            {
+                MainApp.app.newEventMenu.submitEvent(value.rsvp_date);
+            }
+        }
+    });
+    
+    Ext.Viewport.add(this.timePicker);
+    
     this.submitButton = Ext.create('Ext.Button', 
     {
         text    : 'CREATE!',
@@ -44,23 +81,7 @@ function CreateNewEventMenu()
                 MainApp.app.inviteList.ready     &&
                 MainApp.app.eventMap.ready)
             {
-                    //Create a new event
-                    var userid  = MainApp.app.database.getUserId();
-                    var count   = window.localStorage.getItem("chatCount");
-                    
-                    if (!count)
-                    {
-                        count = 0;
-                    }
-                    
-                    var guidStr = userid + '' + count;
-                    var guid    = parseInt(guidStr);
-                    
-                    count++;
-                    window.localStorage.setItem("chatCount", count);
-                                
-                    //Send invites
-                    MainApp.app.inviteList.submit(guid);
+                MainApp.app.newEventMenu.timePicker.show();
             }
         }
     });
@@ -91,6 +112,38 @@ function CreateNewEventMenu()
     });
     
     return screen;
+}
+
+///////////////////////////////////////////////////////////////////////
+
+function SubmitNewEvent( deltaTime )
+{
+    //Calcuate the expiration date and keep going.
+    var hrs     = deltaTime * 60 * 60 * 1000;
+    var expDate = new Date();
+    
+    expDate.setTime(expDate.getTime() + hrs);
+    
+    console.log(expDate);
+    MainApp.app.newEventMenu.rsvpDate = expDate;
+    
+    //Create a new event
+    var userid  = MainApp.app.database.getUserId();
+    var count   = window.localStorage.getItem("chatCount");
+    
+    if (!count)
+    {
+        count = 0;
+    }
+    
+    var guidStr = userid + '' + count;
+    var guid    = parseInt(guidStr);
+    
+    count++;
+    window.localStorage.setItem("chatCount", count);
+                
+    //Send invites
+    MainApp.app.inviteList.submit(guid);
 }
 
 ///////////////////////////////////////////////////////////////////////

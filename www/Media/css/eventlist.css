@@ -20,8 +20,8 @@
 	
 	overflow:hidden;
 	white-space:nowrap;
-	text-overflow: ellipsis;
-	-o- text-overflow: ellipsis;
+	text-overflow: hidden;
+	-o- text-overflow: hidden;
 }
 
 .eventlist_textbox place
@@ -43,8 +43,8 @@
 {
 	position:relative;
 	left:0;
-	top:40px;
-	height:20px;
+	top:35px;
+	height:25px;
 	width:255px;
 	font-family: "Century Gothic", Times, serif;
 	font-size:12px;
@@ -64,5 +64,8 @@
 }
 
 
-
+.list_class {
+   min-height: 65px;
+   box-sizing: none;
+}
 

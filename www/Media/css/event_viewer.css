@@ -1,0 +1,153 @@
+
+/* EventViewer */
+
+@font-face {
+    font-family: 'CodeBoldRegular';
+    src: url('../Header/Font/code_bold-webfont.eot');
+    src: url('../Header/Font/code_bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../Header/Font/code_bold-webfont.woff') format('woff'),
+         url('../Header/Font/code_bold-webfont.ttf') format('truetype'),
+         url('../Header/Font/code_bold-webfont.svg#CodeBoldRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.event_toptoolbar
+{
+	position:relative;
+	left:0px;
+	top:0px;
+	width:320px;
+	height:30px;
+	font-family: 'CodeBoldRegular';
+	font-size:24px;
+	color:#CCC;
+}
+
+.event_map
+{
+	position:absolute;
+	left:0px;
+	top:30px;
+	width:320px;
+	height:155px;
+}
+
+.event_date
+{
+	position:absolute;
+	left:0px;
+	top:185px;
+	width:320px;
+	height:25px;
+	font-family: 'CodeBoldRegular';
+	font-size:18px;
+	color:#CCC;
+}
+
+.event_timeleft
+{
+	float:left;
+	position:absolute;
+	left:5px;
+	top:215px;
+	width:160px;
+	height:20px;
+	font-family: 'CodeBoldRegular';
+	font-size:14px;
+	color:#CCC;
+}
+
+.event_countdown
+{
+	float:left;
+	position:absolute;
+	left:175px;
+	top:210px;
+	width:135px;
+	top:25px;
+	font-family: 'CodeBoldRegular';
+	font-size:22px;
+	color:white;
+}
+
+.event_suggestiontoolbar
+{
+	position:absolute;
+	left:0px;
+	top:235px;
+	width:320px;
+	height:20px;
+	font-family: 'CodeBoldRegular';
+	font-size:16px;
+}
+
+.event_votebox
+{
+	float:left;
+	position:absolute;
+	left:260px;
+	height:45px;
+	width:50px;	
+}
+
+.event_suggestion
+{
+	float:left;
+	position:absolute;
+	left:0px;
+	width:265px;
+	height:45px;
+	
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow: hidden;
+	-o- text-overflow: hidden;
+}
+
+.event_suggestion place
+{
+	position:relative;
+	left:0;
+	top:5px;
+	height:30px;
+	width:255px;
+	font-family: "Century Gothic", Arial, serif;
+	font-size:18px;
+	font-weight:bold;
+	color:#CCC;
+	overflow:hidden;
+	white-space:nowrap;
+}
+
+.event_suggestion date
+{
+	float:left;
+	position:relative;
+	left:0;
+	top:5px;
+	height:30px;
+	width:255px;
+	font-family: "Century Gothic", Times, serif;
+	font-size:12px;
+	color:#CCC; 
+	overflow:hidden;
+	white-space:nowrap;
+}
+
+.event_votebox img /*smiley face from vote*/
+{
+	position:relative;
+	top: 2px;;
+	left:2px;;
+	width:41px;
+	height:41px;
+	SRC="yes.png"
+}
+
+
+.eventviewer_list_class {
+   min-height: 45px;
+   box-sizing: none;
+}
+

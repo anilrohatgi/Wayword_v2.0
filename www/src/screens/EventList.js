@@ -73,7 +73,7 @@ function CreateEventList()
                 
                 MainApp.app.eventList.index = index;
                 
-                MainApp.app.chatWindow.goTo(  DIR_FORW , 
+                MainApp.app.eventViewer.goTo( DIR_FORW , 
                                               MainApp.app.eventList,
                                               guid);
                                               

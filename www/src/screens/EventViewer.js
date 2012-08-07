@@ -9,7 +9,6 @@ function EventViewer()
     //Create event board...
     this.create    = CreateEventViewer;
     this.viewEvent = ViewEventFromGuid;
-    this.template  = "template_layout1";
     
     this.goTo      = GoToEventViewer;    
     this.screen    = this.create();
@@ -52,34 +51,120 @@ function CreateEventViewer()
         [this.backButton,
         {
             ui: 'action',
-            text : 'Go!',
+            text : 'Make Suggestion!',
             iconCls : "podcast",
             handler: function()
             {
-                MainApp.app.calendarScreen.goTo(DIR_FORW, 
-                                            MainApp.app.eventViewer,
-                                            MainApp.app.eventViewer.guid);
+            }
+        },
+        {
+            text : 'Going',
+            handler: function()
+            {
+                MainApp.app.guestList.goTo(DIR_FORW, 
+                                          MainApp.app.eventViewer,
+                                          MainApp.app.eventViewer.guid);    
             }
         },
         {
             iconCls : "trash",
             handler: function()
             {
-                //Delete from the user database
-                if (MainApp.app.eventViewer.deleteFn)
-                {
-                    MainApp.app.eventViewer.deleteFn(MainApp.app.eventViewer.guid);
-                }
-                
+                MainApp.app.eventViewer.removeUserEvent(MainApp.app.eventViewer.guid);
                 MainApp.app.eventViewer.backButton._handler();
             }
-        }]                               
+        }]
     });
+    
+    //////////////////////////////////////////////
+    
+    var csstemp = '<tpl for=".">';
+    csstemp    += '<div class="eventviewer_list_class">';
+    csstemp    += '<div class="event_suggestion">';
+    csstemp    += '<div class="place">{place}</div>';
+    csstemp    += '<div class="date">{date}</div>';
+    csstemp    += '</div>';
+    csstemp    += '</div>';
+    csstemp    += '</tpl>';
+    
+    this.suggestList = Ext.create('Ext.List', 
+    {
+        cls        : 'listclass',
+        title      : 'Other Suggestions',
+        flex       : 4,
+                            
+        store: MainApp.app.database.suggestStore,
+        itemTpl: csstemp,
+
+        listeners:
+        {
+            itemtap: function(view, index, item, e) 
+            {
+            }
+        }
+    });
+    
+    //////////////////////////////////////////////
+    
+    this.map = Ext.create('Ext.Map', 
+    {
+        flex : 1,
+        mapOptions : 
+        {
+            center : new google.maps.LatLng(MainApp.app.locationUtil.curlat, 
+                                            MainApp.app.locationUtil.curlon),  
+            zoom : 12,
+            mapTypeId : google.maps.MapTypeId.ROADMAP,
+            navigationControl: true,
+            navigationControlOptions: 
+            {
+                style: google.maps.NavigationControlStyle.DEFAULT
+            }
+        }
+    });
+    
+    this.mapHeader =  Ext.create('Ext.TitleBar',
+    {
+        title   : 'TOP SUGGESTION',
+        docked  : 'top',
+    });
+    
+    this.mapFooter =  Ext.create('Ext.TitleBar',
+    {
+        title   : 'DATE',
+        docked  : 'bottom',
+    });
+    
+    this.mapPanel = new Ext.Panel(
+    {
+        layout  : 'vbox',
+        flex    : 4,
+        items   : [this.mapHeader, this.map, this.mapFooter],
+    });
+    
+    //////////////////////////////////////////////
+    
+    this.countFooter =  Ext.create('Ext.TitleBar',
+    {
+        title   : 'OTHER SUGGESTIONS',
+        docked  : 'bottom',
+    });
+    
+    this.countDown = new Ext.Panel(
+    {
+        html    : 'Time Left To Vote',
+        layout  : 'vbox',
+        flex    : 1,
+        items   : [this.countFooter],
+    });
+
+    //////////////////////////////////////////////
     
     var screen = new Ext.Panel(
     {
         layout  : 'card',
-        items: [this.localHeader],
+        layout  : 'vbox',
+        items: [this.localHeader, this.mapPanel, this.countDown, this.suggestList],
 
         listeners:
         {
@@ -87,41 +172,6 @@ function CreateEventViewer()
             {
             },
         },
-    });
-    
-    //image listeners
-    screen.element.on(
-    {
-        delegate: 'img',
-        tap: function (e,t) 
-        {
-            var id = t.getAttribute('id');
-            if (id == 'biopic')
-            {
-                //Get the email attribute
-                var email = t.getAttribute('email');
-                MainApp.app.database.getUserInfo(email);
-                MainApp.app.profileViewer.goTo(DIR_FORW, 
-                                          MainApp.app.eventViewer);
-                
-            }
-            else if (id == 'going')
-            {
-                //Get the email attribute
-                var guid = t.getAttribute('guid');
-                MainApp.app.guestList.goTo(DIR_FORW, 
-                                          MainApp.app.eventViewer,
-                                          guid);
-            }
-            else if (id == 'map')
-            {
-                //Get the email attribute
-                var guid = t.getAttribute('guid');
-                MainApp.app.eventMap.goTo(DIR_FORW , 
-                                          MainApp.app.eventViewer, 
-                                          guid);
-            }
-        }
     });
     
     return screen;
@@ -133,27 +183,27 @@ function CreateEventViewer()
 
 function ViewEventFromGuid(store, guid)
 {
-    var event = store.findRecord('guid', guid, MainApp.app.eventList.index);
+    MainApp.app.database.getEventSuggestions(guid);
     
+    var event = store.findRecord('guid', guid);
     this.guid = guid;
     
     if (event)
     {
-        var htmlStr = DrawEventPoster(event.data);
-        this.screen.setHtml(htmlStr);
-        
-        this.screen.replaceCls(this.template, event.data['template']);
-        this.template = event.data['template'];
-        
-        //Set the right delete function
-        if (this.isEvent == 1)
+        //Remove the old maker
+        if (this.marker) this.marker.setMap(null);
+
+        //Create marker
+        var loc = new google.maps.LatLng(event.data['lat'], event.data['lon']);
+        this.marker = new google.maps.Marker(
         {
-            this.deleteFn = MainApp.app.database.removeUserEvent;
-        }
-        else
-        {
-            this.deleteFn = MainApp.app.database.deleteEvent;
-        }
+            position: loc,
+            title : event.data['place'],
+            map: this.map.getMap()
+        });
+        
+        //Center map
+        this.map.setMapCenter(loc);
     }
 }
 
