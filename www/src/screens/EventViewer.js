@@ -9,6 +9,7 @@ function EventViewer()
     //Create event board...
     this.create    = CreateEventViewer;
     this.viewEvent = ViewEventFromGuid;
+    this.tick      = UpdateTimer;
     
     this.goTo      = GoToEventViewer;    
     this.screen    = this.create();
@@ -79,19 +80,26 @@ function CreateEventViewer()
     //////////////////////////////////////////////
     
     var csstemp = '<tpl for=".">';
-    csstemp    += '<div class="eventviewer_list_class">';
     csstemp    += '<div class="event_suggestion">';
-    csstemp    += '<div class="place">{place}</div>';
-    csstemp    += '<div class="date">{date}</div>';
+    csstemp    += '<place>{place}</place>';
+    csstemp    += '<date>{[values.date.toDateString()]}</date>';
     csstemp    += '</div>';
+    
+    csstemp    += '<div class="event_votebox">';
+    csstemp    += '<img src={facethumb} />';
     csstemp    += '</div>';
+    
+    csstemp    += '<div class="event_suggestion_author">';
+    csstemp    += '<img src={creatorthumb} />';
+    csstemp    += '</div>';
+
     csstemp    += '</tpl>';
     
     this.suggestList = Ext.create('Ext.List', 
     {
         cls        : 'listclass',
         title      : 'Other Suggestions',
-        flex       : 4,
+        flex       :  1,
                             
         store: MainApp.app.database.suggestStore,
         itemTpl: csstemp,
@@ -102,6 +110,21 @@ function CreateEventViewer()
             {
             }
         }
+    });
+    
+    this.suggestlistHeader =  Ext.create('Ext.Toolbar',
+    {
+        ui      : 'subtitle',
+        cls     : 'subtitle',
+        height  : 30,
+        docked  : 'top',
+    });
+    
+    this.suggestlistPanel = new Ext.Panel(
+    {
+        layout  : 'vbox',
+        flex    : 4,
+        items   : [this.suggestlistHeader, this.suggestList],
     });
     
     //////////////////////////////////////////////
@@ -123,14 +146,20 @@ function CreateEventViewer()
         }
     });
     
-    this.mapHeader =  Ext.create('Ext.TitleBar',
+    this.mapHeader =  Ext.create('Ext.Toolbar',
     {
+        ui      : 'subtitle',
+        cls     : 'subtitle',
+        height  : 30,
         title   : 'TOP SUGGESTION',
         docked  : 'top',
     });
     
-    this.mapFooter =  Ext.create('Ext.TitleBar',
+    this.mapFooter =  Ext.create('Ext.Toolbar',
     {
+        ui      : 'subtitle',
+        cls     : 'subtitle',
+        height  :  30,
         title   : 'DATE',
         docked  : 'bottom',
     });
@@ -138,24 +167,8 @@ function CreateEventViewer()
     this.mapPanel = new Ext.Panel(
     {
         layout  : 'vbox',
-        flex    : 4,
+        flex    : 6,
         items   : [this.mapHeader, this.map, this.mapFooter],
-    });
-    
-    //////////////////////////////////////////////
-    
-    this.countFooter =  Ext.create('Ext.TitleBar',
-    {
-        title   : 'OTHER SUGGESTIONS',
-        docked  : 'bottom',
-    });
-    
-    this.countDown = new Ext.Panel(
-    {
-        html    : 'Time Left To Vote',
-        layout  : 'vbox',
-        flex    : 1,
-        items   : [this.countFooter],
     });
 
     //////////////////////////////////////////////
@@ -164,7 +177,7 @@ function CreateEventViewer()
     {
         layout  : 'card',
         layout  : 'vbox',
-        items: [this.localHeader, this.mapPanel, this.countDown, this.suggestList],
+        items: [this.localHeader, this.mapPanel, this.suggestlistPanel],
 
         listeners:
         {
@@ -185,12 +198,13 @@ function ViewEventFromGuid(store, guid)
 {
     MainApp.app.database.getEventSuggestions(guid);
     
-    var event = store.findRecord('guid', guid);
-    this.guid = guid;
+    var event  = store.findRecord('guid', guid);
+    this.guid  = guid;
+    this.event = event;
     
     if (event)
     {
-        //Remove the old maker
+        //MAP STUFF
         if (this.marker) this.marker.setMap(null);
 
         //Create marker
@@ -204,8 +218,49 @@ function ViewEventFromGuid(store, guid)
         
         //Center map
         this.map.setMapCenter(loc);
+        
+        var placedate = event.data['start'].toDateString() + " " + event.data['start'].toLocaleTimeString();
+        this.mapFooter.setTitle(placedate);
+        
+        //start ticking
+        var task = Ext.create('Ext.util.DelayedTask', function() 
+        {
+            //server calling method
+            this.tick()
+            task.delay(10000);
+        }, this);
+        
+        this.timer = task;
+        task.delay(0);
     }
 }
+
+///////////////////////////////////////////////////////////////////////
+
+function UpdateTimer()
+{
+    var curDate = new Date();
+    var expDate = this.event.data['rsvp'];
+
+    var difference = expDate.getTime() - curDate.getTime();
+ 
+    var daysDifference      = Math.floor(difference/1000/60/60/24);
+    difference              -= daysDifference*1000*60*60*24
+ 
+    var hoursDifference     = Math.floor(difference/1000/60/60);
+    difference              -= hoursDifference*1000*60*60
+ 
+    var minutesDifference   = Math.floor(difference/1000/60);
+    difference              -= minutesDifference*1000*60
+ 
+    var secondsDifference   = Math.floor(difference/1000);
+    
+    var countdown = "Suggestions " + hoursDifference + ":" + minutesDifference + ":" + secondsDifference;
+    
+    this.suggestlistHeader.setTitle(countdown);
+    
+    console.log(countdown);
+} 
 
 ///////////////////////////////////////////////////////////////////////
 

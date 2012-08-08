@@ -31,7 +31,9 @@ Ext.define('EventInfo',
             {name: 'isEvent',   type: 'int'},
             {name: 'start',     type: 'date', dateFormat: 'c'},
             {name: 'rsvp',      type: 'date', dateFormat: 'c'},
-            {name: 'pinday',    type: 'date', dateFormat: 'c'}
+            {name: 'pinday',    type: 'date', dateFormat: 'c'},
+            
+            {name: 'facethumb',   type: 'string'}
         ]
     }
 });
@@ -54,6 +56,7 @@ Ext.define('SuggestInfo',
          
             {name: 'creator',        type: 'string'},
             {name: 'creatorthumb',   type: 'string'},
+            {name: 'facethumb',      type: 'string'},
             
             {name: 'date',      type: 'date', dateFormat: 'c'},
             {name: 'score',     type: 'int'}
@@ -344,7 +347,8 @@ function CreateSuggestStore()
             extraParams: 
             {
                 action: 'getSuggestions',
-                guid: '0'
+                guid: '0',
+                userid :'0'
             },
 
             reader: 
@@ -594,7 +598,10 @@ function GetGoingList( eventGuid )
 
 function GetEventSuggestions( guid )
 {
+    var userId = GetUserId();
+    
     this.suggestStore.getProxy().setExtraParam('guid', guid);
+    this.suggestStore.getProxy().setExtraParam('userid', userId);
     this.suggestStore.load(function(records, operation, success) 
     {
     });

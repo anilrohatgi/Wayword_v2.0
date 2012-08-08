@@ -38,7 +38,7 @@ function CreateEventList()
     
     csstemp    += '<div class="eventlist_textbox">';
     csstemp    += '<place>{place}</place>';
-    csstemp    += '<date>{start}</date>';
+    csstemp    += '<date>{[values.start.toDateString()]}</date>';
     csstemp    += '</div>';
     
     csstemp    += '<div class="eventlist_imagebox">';
