@@ -170,8 +170,8 @@
    box-sizing: none;
 }
 
-.subtitle .x-toolbar-text 
+.subtitle
 {
-    font-size: 15px;
+    font-size: 10px;
 }
 

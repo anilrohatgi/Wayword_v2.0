@@ -1,0 +1,126 @@
+
+/* EventViewer */
+
+.viewer_profile img
+{
+	position:absolute;
+	left:10px;
+	top:5px;
+	width:45px;
+	height:45px;
+	src="profile.png"
+}
+
+.viewer_suggested
+{
+	position:absolute;
+	left:70px;
+	top:10px;
+	width:122px;
+	height:15px;
+	font-family:"Century Gothic", serif;
+	font-size:14px;
+	color:#CCC;
+}
+
+.viewer_username
+{
+	position:absolute;
+	left:65px;
+	top:28px;
+	width:250px;
+	height:30px;
+	font-family: "Century Gothic", serif;
+	font-size: 24px;
+	font-weight:bold;
+	color:white;
+	overflow:hidden;
+}
+
+.viewer_map
+{
+	position:absolute;
+	left:10px;
+	top:65px;
+	width: 105px;
+	height: 105px;
+}
+
+.viewer_place
+{
+	position:absolute;
+	left:120px;
+	top:75px;
+	width:190;
+	height:42px;
+	font-family: "Century Gothic", serif;
+	font-size:18px;
+	font-weight:bold;
+	color:white;
+	overflow:hidden;
+}
+
+.viewer_date
+{
+	position:absolute;
+	left:120px;
+	top:130px;
+	width:190px;
+	height:15px;
+	font-family: "Century Gothic", serif;
+	font-size: 12px;
+	font-weight:bold;
+	color:#CCC;
+	overflow:hidden;
+}
+
+.viewer_comment
+{
+	position:absolute;
+	left:10px;
+	top:190px;
+	width:310px;
+	height:60px;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	color:#CCC;
+	overflow:hidden;
+	
+}
+
+.viewer_toolbar
+{
+	position:absolute;
+	left:0px;
+	top:265px;
+	width:320px;
+	height:22px;
+
+}
+
+.viewer_no img
+{
+	position:absolute;
+	left:15px;
+	width: 80px;
+	height: 80px;
+	src= "no.png";
+}
+
+.viewer_maybe img
+{
+	position:absolute;
+	left:120px;
+	width: 80px;
+	height: 80px;
+	src= "maybe.png";
+}
+
+.viewer_yes img
+{
+	position:absolute;
+	left:225px;
+	width: 80px;
+	height: 80px;
+	src= "yes.png";
+}

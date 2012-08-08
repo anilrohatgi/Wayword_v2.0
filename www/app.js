@@ -58,6 +58,7 @@ MainApp = Ext.application(
         this.guestList          = new GuestList();
         this.contactList        = new ContactsList();
         this.chatWindow         = new ChatWindow();
+        this.suggestViewer      = new SuggestViewer();
                           
         //Create the layers
         this.newEventLayer    = new NewEventLayer();

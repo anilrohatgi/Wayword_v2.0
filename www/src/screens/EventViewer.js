@@ -108,6 +108,15 @@ function CreateEventViewer()
         {
             itemtap: function(view, index, item, e) 
             {
+                var record  = view.getStore().getAt(index);
+                var guid    = record.get('guid');
+                
+                MainApp.app.suggestViewer.goTo( DIR_FORW , 
+                                                MainApp.app.eventViewer,
+                                                guid);
+                                              
+                MainApp.app.suggestViewer.viewSuggestion(MainApp.app.database.suggestStore, 
+                                                         guid);  
             }
         }
     });

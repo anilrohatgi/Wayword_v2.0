@@ -11,11 +11,13 @@ function CalendarLayer()
         title   :'',
         layout  : 'card',
         iconCls : 'note1',
+        cls     : 'blankPage',
 
         items: [MainApp.app.eventList.screen,
                 MainApp.app.chatWindow.screen,
                 MainApp.app.calendarScreen.screen,
                 MainApp.app.eventViewer.screen,
+                MainApp.app.suggestViewer.screen,
                 MainApp.app.profileViewer.screen,
                 MainApp.app.inviteList.screen,
                 MainApp.app.guestList.screen,

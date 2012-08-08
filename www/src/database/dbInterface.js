@@ -143,7 +143,9 @@ function DataBaseInterface()
     this.deleteEvent       = DeleteEvent;
     
     this.getGoingList        = GetGoingList;
+    
     this.getEventSuggestions = GetEventSuggestions;
+    this.userRankSuggestion  = UserRankSuggestion;
     
     this.getUserFriends    = GetUserFriends;
     this.removeFriend      = BreakFriendship;
@@ -879,6 +881,30 @@ function BreakFriendship( user2 )
         {
             //refresh the friends list
             MainApp.app.database.getUserFriends();
+        }
+    });
+}
+
+///////////////////////////////////////////////////////////////////////
+
+function UserRankSuggestion( eventguid, rank )
+{
+    var userid = GetUserId();
+    
+    Ext.Ajax.request(
+    {
+        url: DBFile + '?action=userRankSuggestion',
+        method: 'post',
+        params:
+        {
+            userid      : userid,
+            eventguid   : eventguid,
+            rank        : rank
+        },
+
+        success: function(response, opts) 
+        {
+            console.log(response);
         }
     });
 }
