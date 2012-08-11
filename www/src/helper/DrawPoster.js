@@ -128,7 +128,6 @@ function DrawUserProfile(data)
         htmlStr    = "<div class='user_name'>" + name + "</div>";
         htmlStr   += "<div class='user_profile'><img src='" + thumb + "'></img></div>";
         htmlStr   += "<div class='user_about'> '" + bio + "' </div>";
-        htmlStr   += "<div class='user_rating'> " + rating + " : " + level + " </div>";
     }
 
     return htmlStr;

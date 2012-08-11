@@ -18,6 +18,7 @@ function CalendarLayer()
                 MainApp.app.calendarScreen.screen,
                 MainApp.app.eventViewer.screen,
                 MainApp.app.suggestViewer.screen,
+                MainApp.app.newSuggestMenu.screen,
                 MainApp.app.profileViewer.screen,
                 MainApp.app.inviteList.screen,
                 MainApp.app.guestList.screen,

@@ -69,13 +69,15 @@ function CreateSuggestViewer()
     
     //////////////////////////////////////////////
     
+    var loc = new google.maps.LatLng(MainApp.app.locationUtil.curlat, 
+                                MainApp.app.locationUtil.curlon);
+                                    
     this.map = Ext.create('Ext.Map', 
     {
         flex : 1,
         mapOptions : 
         {
-            center : new google.maps.LatLng(MainApp.app.locationUtil.curlat, 
-                                            MainApp.app.locationUtil.curlon),  
+            center : loc,  
             zoom : 12,
             mapTypeId : google.maps.MapTypeId.ROADMAP,
             navigationControl: true,
@@ -86,19 +88,27 @@ function CreateSuggestViewer()
         }
     });
     
+    this.marker = new google.maps.Marker(
+    {
+        map: this.map.getMap(),
+        position: loc
+    });
+    
+    this.infoPop = new google.maps.InfoWindow();
+    
     this.mapPanel = new Ext.Panel(
     {
-        top     : 65,
-        left    : 10,
-        width   : 105,
-        height  : 105,
+        top     : 50,
+        left    : 0,
+        width   : 320,
+        height  : 150,
         layout  : 'vbox',
         items   : [this.map],
     });
     
     this.topPanel = new Ext.Panel(
     {
-        flex : 2,
+        flex : 3,
         items : [this.mapPanel]
     });
     
@@ -125,7 +135,6 @@ function CreateSuggestViewer()
         tap: function (e,t) 
         {
             var id = t.getAttribute('value');
-            console.log(t);
             
             MainApp.app.suggestViewer.vote = id;
             MainApp.app.suggestViewer.refreshVotes();
@@ -178,20 +187,24 @@ function ViewSuggestFromGuid(store, guid)
         //Center map
         this.map.setMapCenter(loc);
         
-        var placedate = event.data['date'].toDateString() + " " + event.data['date'].toLocaleTimeString();
+        var placedate = event.data['place'] + '<br />' +event.data['date'].toDateString() + " " + event.data['date'].toLocaleTimeString();
+        
+        this.infoPop.setContent(placedate);
+        this.infoPop.open(this.map.getMap(), this.marker);
         
         var htmlStr = '<div class="viewer_profile">';
         htmlStr    += '<img src="' + event.data['creatorthumb'] + '" />';
         htmlStr    += '</div>';
         
-        htmlStr    += '<div class="viewer_suggested">Suggested By</div>';
         htmlStr    += '<div class="viewer_username">' + event.data['creator'] + '</div>';
         htmlStr    += '<div class="viewer_place">'    + event.data['place'] + '</div>';
         htmlStr    += '<div class="viewer_date">'    + event.data['date'] + '</div>';
         htmlStr    += '<div class="viewer_comment">'    + event.data['desc'] + '</div>';
-        
+        htmlStr    += '<div class="viewer_bubble"><img src="Media/bubble.png"</div>';
+
         this.topPanel.setHtml(htmlStr);
-        this.vote =  event.data['score'];
+        this.vote =  event.data['suggestScore'];
+
         this.refreshVotes();
     }
 }

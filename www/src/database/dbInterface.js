@@ -59,6 +59,7 @@ Ext.define('SuggestInfo',
             {name: 'facethumb',      type: 'string'},
             
             {name: 'date',      type: 'date', dateFormat: 'c'},
+            {name: 'suggestScore',     type: 'int'},
             {name: 'score',     type: 'int'}
         ]
     }

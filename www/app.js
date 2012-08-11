@@ -59,6 +59,7 @@ MainApp = Ext.application(
         this.contactList        = new ContactsList();
         this.chatWindow         = new ChatWindow();
         this.suggestViewer      = new SuggestViewer();
+        this.newSuggestMenu     = new NewSuggestMenu();
                           
         //Create the layers
         this.newEventLayer    = new NewEventLayer();

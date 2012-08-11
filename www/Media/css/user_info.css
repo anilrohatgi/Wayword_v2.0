@@ -1,0 +1,48 @@
+
+/* UserProfile */
+
+.user_profile img
+{
+	position:absolute !important;
+	top: 180px;
+	left:73px;
+	width:175px;
+	height:175px;
+	SRC="profile.png"
+		
+	-moz-box-shadow: 2px 4px 6px  rgba(0,0,0,0.5);
+	-webkit-box-shadow: 2px 4px 6px  rgba(0,0,0,0.5);
+	box-shadow: 2px 4px 6px  rgba(0,0,0,0.5);	
+
+}
+
+.user_name 
+{
+	position:absolute !important;
+	top: 15px;
+	left: 20px;
+	width:280px;
+	height:25px;
+	font: "Century Gothic", Helvetica, serif;
+	font-weight:bold;
+	font-size:20px;
+	overflow:hidden;
+	color:white;
+}
+
+.user_about
+{
+	position:absolute !important;
+	top: 70px;
+	left:25px;
+	width:270px;
+	height:100px;
+	font-family:"Century Gothic", Helvetica, serif;
+	font-size:14px;
+	overflow:hidden;
+	text-overflow: ellipsis;
+	-o- text-overflow: ellipsis;
+	color:#CCC;
+}
+
+

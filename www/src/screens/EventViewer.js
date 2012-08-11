@@ -56,6 +56,9 @@ function CreateEventViewer()
             iconCls : "podcast",
             handler: function()
             {
+                MainApp.app.newSuggestMenu.goTo(DIR_FORW, 
+                                          MainApp.app.eventViewer); 
+                
             }
         },
         {
@@ -138,13 +141,14 @@ function CreateEventViewer()
     
     //////////////////////////////////////////////
     
+    var loc = new google.maps.LatLng(MainApp.app.locationUtil.curlat, 
+                                    MainApp.app.locationUtil.curlon);
     this.map = Ext.create('Ext.Map', 
     {
         flex : 1,
         mapOptions : 
         {
-            center : new google.maps.LatLng(MainApp.app.locationUtil.curlat, 
-                                            MainApp.app.locationUtil.curlon),  
+            center : loc,  
             zoom : 12,
             mapTypeId : google.maps.MapTypeId.ROADMAP,
             navigationControl: true,
@@ -155,6 +159,14 @@ function CreateEventViewer()
         }
     });
     
+    this.marker = new google.maps.Marker(
+    {
+        map: this.map.getMap(),
+        position: loc
+    });
+    
+    this.infoPop = new google.maps.InfoWindow();
+
     this.mapHeader =  Ext.create('Ext.Toolbar',
     {
         ui      : 'subtitle',
@@ -164,20 +176,11 @@ function CreateEventViewer()
         docked  : 'top',
     });
     
-    this.mapFooter =  Ext.create('Ext.Toolbar',
-    {
-        ui      : 'subtitle',
-        cls     : 'subtitle',
-        height  :  30,
-        title   : 'DATE',
-        docked  : 'bottom',
-    });
-    
     this.mapPanel = new Ext.Panel(
     {
         layout  : 'vbox',
         flex    : 6,
-        items   : [this.mapHeader, this.map, this.mapFooter],
+        items   : [this.mapHeader, this.map],
     });
 
     //////////////////////////////////////////////
@@ -228,9 +231,11 @@ function ViewEventFromGuid(store, guid)
         //Center map
         this.map.setMapCenter(loc);
         
-        var placedate = event.data['start'].toDateString() + " " + event.data['start'].toLocaleTimeString();
-        this.mapFooter.setTitle(placedate);
+        var placedate = event.data['place'] + '<br />' + event.data['start'].toDateString() + " " + event.data['start'].toLocaleTimeString();
         
+        this.infoPop.setContent(placedate);
+        this.infoPop.open(this.map.getMap(), this.marker);
+
         //start ticking
         var task = Ext.create('Ext.util.DelayedTask', function() 
         {
@@ -241,6 +246,25 @@ function ViewEventFromGuid(store, guid)
         
         this.timer = task;
         task.delay(0);
+        
+        /*this.timer = 
+        {
+            run: function()
+            {
+                if (!MainApp.app.eventViewer.doCount)
+                {
+                    MainApp.app.eventViewer.tick();
+                }
+                else
+                {
+                    MainApp.app.eventViewer.runner.stop(task);     
+                }
+            },
+            interval: 500 // every 1/2 second
+        };
+        
+        this.runner = new Ext.util.TaskRunner();
+        this.runner.start(this.timer);*/
     }
 }
 
@@ -278,6 +302,8 @@ function GoToEventViewer( dir, back , isEvent)
     if (back) this.back = back;
     this.isEvent = isEvent;
     
+    this.doCount = true;
+    
     MainApp.app.appLayer.currentLayer.animateActiveItem(this.screen, 
-                                                        {type: 'slide', direction: dir});
+                                                        {type: 'pop', direction: dir});
 }

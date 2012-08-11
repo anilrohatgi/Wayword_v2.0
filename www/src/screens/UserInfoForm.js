@@ -88,7 +88,7 @@ function CreateUserInfoFormScreen()
     {
         title      : 'Edit Profile',
         scrollable : 'vertical',
-        cls        : 'createform',
+        cls        : 'blankPage',
         
         layout: 
         {

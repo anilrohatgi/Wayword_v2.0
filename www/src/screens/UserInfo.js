@@ -58,7 +58,7 @@ function CreateUserInfoScreen()
     var screen  = new Ext.Panel(
     {
         title      : 'Your Bio',
-        cls        : 'user_background',
+        cls        : 'blankPage',
         items      : [this.localHeader],
 
         listeners:
