@@ -41,60 +41,23 @@ function CreateNewSuggestMenu()
     this.header  = new Ext.Toolbar(
     {
         //title   : 'NEW EVENT',
-        html : '<div class="way">Way</div><div class="word">Word</div>',
+        html : '<div class="word">New Suggestion</div>',
         docked  :'top',
         
         items : [this.backButton]                               
     });
     
-    this.timePicker = Ext.create('Ext.Picker', 
-    {
-        doneButton: true,
-        cancelButton: true,
-        zIndex : 100,
-        hidden : true,
-        
-        toolbar: 
-        {
-            title: 'When do you want a decision by?'
-        },
-        
-        slots: 
-        [{
-            name : 'rsvp_date',
-            title: 'RSVP',
-            data : 
-            [
-                {text: '2 hrs', value: 2},
-                {text: '6 hrs', value: 6},
-                {text: '12 hrs', value: 12},
-                {text: '24 hrs', value: 24}
-            ]
-        }],
-        
-        listeners: 
-        {
-            change: function (picker, value, oldValue) 
-            {
-                MainApp.app.newEventMenu.submitEvent(value.rsvp_date);
-            }
-        }
-    });
-    
-    Ext.Viewport.add(this.timePicker);
-    
     this.submitButton = Ext.create('Ext.Button', 
     {
-        text    : 'CREATE!',
+        text    : 'SUGGEST!',
         ui      : 'action',
         docked  : 'bottom',
         handler: function () 
         {            
             if (MainApp.app.calendarScreen.ready &&
-                MainApp.app.inviteList.ready     &&
                 MainApp.app.eventMap.ready)
             {
-                MainApp.app.newEventMenu.timePicker.show();
+                MainApp.app.newSuggestMenu.submitSuggest();
             }
         }
     });
@@ -131,32 +94,29 @@ function CreateNewSuggestMenu()
 
 function SubmitNewSuggest( deltaTime )
 {
-    //Calcuate the expiration date and keep going.
-    var hrs     = deltaTime * 60 * 60 * 1000;
-    var expDate = new Date();
-    
-    expDate.setTime(expDate.getTime() + hrs);
-    
-    console.log(expDate);
-    MainApp.app.newEventMenu.rsvpDate = expDate;
-    
-    //Create a new event
-    var userid  = MainApp.app.database.getUserId();
-    var count   = window.localStorage.getItem("chatCount");
-    
-    if (!count)
+    //Send Suggestion
+    Ext.Msg.prompt('Message', 'Add message to your suggestion', 
+    function(button, value)
     {
-        count = 0;
-    }
-    
-    var guidStr = userid + '' + count;
-    var guid    = parseInt(guidStr);
-    
-    count++;
-    window.localStorage.setItem("chatCount", count);
+        if (button == 'ok')
+        {
+            //Set the message as description
+            MainApp.app.newEventForm.screen.setValues(
+            {
+                description : value
+            });
+            
+            MainApp.app.database.createNewSuggestion(
+                                MainApp.app.newEventForm.screen.getValues(),
+                                MainApp.app.eventMap.lat,
+                                MainApp.app.eventMap.lon,
+                                MainApp.app.newSuggestMenu.guid);
                 
-    //Send invites
-    MainApp.app.inviteList.submit(guid);
+            //MainApp.app.inviteList.makeEmails(value);
+            MainApp.app.newSuggestMenu.reset();
+            MainApp.app.newSuggestMenu.backButton._handler();
+        }
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -201,7 +161,6 @@ function RefreshSuggestMenu()
     
     //Check to see if you can show the submit button.
     if (MainApp.app.calendarScreen.ready &&
-        MainApp.app.inviteList.ready     &&
         MainApp.app.eventMap.ready)
     {
         this.submitButton.show();
@@ -223,12 +182,7 @@ function CreateNewSuggestHandler()
         tap: function (e,t) 
         {
             var id = t.getAttribute('class');
-            if (id == 'menu_panelwho_img')
-            {
-                MainApp.app.inviteList.goTo(DIR_FORW, 
-                                        MainApp.app.newSuggestMenu);
-            }
-            else if (id == 'menu_panelwhere_img')
+            if (id == 'menu_panelwhere_img')
             {
                 MainApp.app.eventMap.goTo(DIR_FORW, 
                                         MainApp.app.newSuggestMenu);
@@ -256,15 +210,16 @@ function ResetNewSuggestMenu()
 
 ///////////////////////////////////////////////////////////////////////
 
-function GoToSuggestMenu( dir, back, mode )
+function GoToSuggestMenu( dir, back, guid )
 {
-    this.mode = mode;
     if (back) this.back = back;
     
     this.refresh();
     
     if (dir == DIR_FORW)
     {
+        if (guid) this.guid = guid;
+        
         MainApp.app.newEventForm.reset();
         this.reset();
         MainApp.app.appLayer.currentLayer.animateActiveItem(this.screen, 

@@ -145,6 +145,7 @@ function DataBaseInterface()
     
     this.getGoingList        = GetGoingList;
     
+    this.createNewSuggestion = CreateNewSuggestion;
     this.getEventSuggestions = GetEventSuggestions;
     this.userRankSuggestion  = UserRankSuggestion;
     
@@ -905,7 +906,40 @@ function UserRankSuggestion( eventguid, rank )
 
         success: function(response, opts) 
         {
-            console.log(response);
+            //Refresh the store now
+            MainApp.app.database.suggestStore.load();
+            MainApp.app.eventViewer.refresh();
+        }
+    });
+}
+
+///////////////////////////////////////////////////////////////////////
+
+function CreateNewSuggestion( data, lat, lon, eventGuid )
+{
+    var userid = GetUserId();
+    
+    Ext.Ajax.request(
+    {
+        url: DBFile + '?action=createNewSuggestion',
+        method: 'post',
+        params:
+        {
+            userid : userid,
+            desc   : data.description,
+            place  : data.location,
+            start  : data.startdate,
+            lat    : lat,
+            lon    : lon,
+            address: data.address,
+            guid   : eventGuid
+        },
+  
+        success: function(response, opts) 
+        {
+            //Refresh the store now
+            MainApp.app.database.suggestStore.load();
+            MainApp.app.eventViewer.refresh();
         }
     });
 }

@@ -9,6 +9,7 @@ function EventViewer()
     //Create event board...
     this.create    = CreateEventViewer;
     this.viewEvent = ViewEventFromGuid;
+    this.refresh   = RefreshEventView;
     this.tick      = UpdateTimer;
     
     this.goTo      = GoToEventViewer;    
@@ -56,8 +57,11 @@ function CreateEventViewer()
             iconCls : "podcast",
             handler: function()
             {
+                console.log(MainApp.app.eventViewer.guid);
+                
                 MainApp.app.newSuggestMenu.goTo(DIR_FORW, 
-                                          MainApp.app.eventViewer); 
+                                          MainApp.app.eventViewer,
+                                          MainApp.app.eventViewer.guid); 
                 
             }
         },
@@ -212,6 +216,7 @@ function ViewEventFromGuid(store, guid)
     
     var event  = store.findRecord('guid', guid);
     this.guid  = guid;
+    this.store = store;
     this.event = event;
     
     if (event)
@@ -266,6 +271,13 @@ function ViewEventFromGuid(store, guid)
         this.runner = new Ext.util.TaskRunner();
         this.runner.start(this.timer);*/
     }
+}
+
+///////////////////////////////////////////////////////////////////////
+
+function RefreshEventView()
+{
+    this.viewEvent(this.store, this.guid);
 }
 
 ///////////////////////////////////////////////////////////////////////

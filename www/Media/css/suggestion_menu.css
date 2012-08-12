@@ -104,7 +104,7 @@
 	position:absolute;
 	top:0px;
 	left:0px;
-	width:107px;
+	width:160px;
 	height:390px;
 	SRC="sCheck_where.png";
 	overflow:hidden;
@@ -116,8 +116,8 @@
 	float:left;
 	position:absolute;
 	top:0px;
-	left:107px;
-	width:106px;
+	left:160px;
+	width:160px;
 	height:390px;
 	SRC="sCheck_when.png";
 	overflow:hidden;
