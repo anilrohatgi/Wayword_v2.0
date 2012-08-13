@@ -35,7 +35,7 @@ function CreateGuestList()
     
     this.localHeader  = new Ext.Toolbar(
     {
-        title : 'GUEST LIST',
+        title : '<div class="way">GUEST </div><div class="word"> LIST</div>',
         docked: 'top',
         layout: 
         {

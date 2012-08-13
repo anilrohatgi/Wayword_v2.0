@@ -46,7 +46,7 @@ function CreateEventMap()
     
     this.localHeader  = new Ext.Toolbar(
     {
-        title   : 'MAP',
+        title : '<div class="way">PICK </div><div class="word"> PLACE</div>',
         docked: 'top',
         layout: 
         {

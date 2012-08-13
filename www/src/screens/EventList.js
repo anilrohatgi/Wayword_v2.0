@@ -23,7 +23,7 @@ function CreateEventList()
 {
     this.localHeader  = Ext.create('Ext.TitleBar',
     {
-        title   : ' YOUR WAYWORDS',
+        title : '<div class="way">YOUR </div><div class="word"> PLANS</div>',
         docked  : 'top',
 
         defaults:

@@ -38,7 +38,7 @@ function CreateInviteList()
     
     this.localHeader  = new Ext.Toolbar(
     {
-        title : 'INVITE FRIENDS',
+        title : '<div class="way">PICK </div><div class="word"> FRIENDS</div>',
         docked: 'top',
         layout: 
         {

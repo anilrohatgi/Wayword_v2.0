@@ -73,7 +73,7 @@ function CreateProfileViewScreen()
     
     this.localHeader  = new Ext.Toolbar(
     {
-        title   : 'PROFILE',
+        title : '<div class="way">USER </div><div class="word"> INFO</div>',
         docked: 'top',
         layout: 
         {
@@ -93,7 +93,7 @@ function CreateProfileViewScreen()
     
     var screen  = new Ext.Panel(
     {
-        cls   : 'user_background',
+        cls        : 'blankPage',
         items : [this.localHeader],
         listeners:
         {

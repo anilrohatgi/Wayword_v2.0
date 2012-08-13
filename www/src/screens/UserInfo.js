@@ -22,7 +22,7 @@ function CreateUserInfoScreen()
 {
     this.localHeader = Ext.create('Ext.TitleBar',
     {
-        title  : 'PROFILE',
+        title  : '<div class="way">YOUR </div><div class="word"> PROFILE</div>',
         docked :'top',
         
         defaults:

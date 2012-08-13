@@ -40,8 +40,7 @@ function CreateNewSuggestMenu()
     //Header for board
     this.header  = new Ext.Toolbar(
     {
-        //title   : 'NEW EVENT',
-        html : '<div class="word">New Suggestion</div>',
+        title : '<div class="way">NEW </div><div class="word"> SUGGESTION</div>',
         docked  :'top',
         
         items : [this.backButton]                               

@@ -76,7 +76,7 @@ function CreateCalendarScreen()
     
     this.localHeader  = new Ext.Toolbar(
     {
-        title : 'PICK DATE',
+        title : '<div class="way">PICK </div><div class="word"> DATE</div>',
         docked: 'top',
         layout: 
         {

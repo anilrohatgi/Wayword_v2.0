@@ -39,7 +39,7 @@ function CreateUserInfoFormScreen()
     
     this.localHeader  = new Ext.Toolbar(
     {
-        title   : 'EDIT PROFILE',
+        title  : '<div class="way">EDIT </div><div class="word"> PROFILE</div>',
         docked: 'top',
         layout: 
         {

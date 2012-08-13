@@ -22,7 +22,7 @@ function CreateFriendsList()
     //Button for submission
     this.localHeader  = Ext.create('Ext.TitleBar',
     {
-        title : 'FRIENDS',
+        title : '<div class="way">YOUR </div><div class="word"> FRIENDS</div>',
         docked: 'top',
         defaults:
         {

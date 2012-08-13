@@ -39,7 +39,7 @@ function CreateSuggestViewer()
     
     this.localHeader  = Ext.create('Ext.TitleBar',
     {
-        title   : '',
+        title : '<div class="word">SUGGESTION</div>',
         docked: 'top',
 
         defaults:

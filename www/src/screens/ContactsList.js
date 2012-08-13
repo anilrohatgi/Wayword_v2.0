@@ -39,7 +39,7 @@ function CreateContactsList()
     
     this.localHeader  = new Ext.Toolbar(
     {
-        title : 'CONTACTS',
+        title : '<div class="word">CONTACTS</div>',
         docked: 'top',
         layout: 
         {

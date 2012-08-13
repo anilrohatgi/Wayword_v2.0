@@ -46,7 +46,7 @@ function CreateEventViewer()
         {
             iconMask: true,
             xtype:'button',
-            align : 'right',
+            align : 'center',
         },
 
         items : 
@@ -57,8 +57,6 @@ function CreateEventViewer()
             iconCls : "podcast",
             handler: function()
             {
-                console.log(MainApp.app.eventViewer.guid);
-                
                 MainApp.app.newSuggestMenu.goTo(DIR_FORW, 
                                           MainApp.app.eventViewer,
                                           MainApp.app.eventViewer.guid); 
@@ -200,6 +198,11 @@ function CreateEventViewer()
             activate:function()
             {
             },
+            
+            deactivate : function ()
+            {
+                clearInterval(MainApp.app.eventViewer.tickid);
+            }
         },
     });
     
@@ -217,10 +220,11 @@ function ViewEventFromGuid(store, guid)
     var event  = store.findRecord('guid', guid);
     this.guid  = guid;
     this.store = store;
-    this.event = event;
     
     if (event)
     {
+        this.event = event;
+        
         //MAP STUFF
         if (this.marker) this.marker.setMap(null);
 
@@ -242,34 +246,7 @@ function ViewEventFromGuid(store, guid)
         this.infoPop.open(this.map.getMap(), this.marker);
 
         //start ticking
-        var task = Ext.create('Ext.util.DelayedTask', function() 
-        {
-            //server calling method
-            this.tick()
-            task.delay(10000);
-        }, this);
-        
-        this.timer = task;
-        task.delay(0);
-        
-        /*this.timer = 
-        {
-            run: function()
-            {
-                if (!MainApp.app.eventViewer.doCount)
-                {
-                    MainApp.app.eventViewer.tick();
-                }
-                else
-                {
-                    MainApp.app.eventViewer.runner.stop(task);     
-                }
-            },
-            interval: 500 // every 1/2 second
-        };
-        
-        this.runner = new Ext.util.TaskRunner();
-        this.runner.start(this.timer);*/
+        this.tickid = setInterval(MainApp.app.eventViewer.tick, 500);
     }
 }
 
@@ -284,27 +261,41 @@ function RefreshEventView()
 
 function UpdateTimer()
 {
-    var curDate = new Date();
-    var expDate = this.event.data['rsvp'];
+    if (MainApp.app.eventViewer.event)
+    {
+        var curDate = new Date();
+        var expDate = MainApp.app.eventViewer.event.data['rsvp'];
 
-    var difference = expDate.getTime() - curDate.getTime();
- 
-    var daysDifference      = Math.floor(difference/1000/60/60/24);
-    difference              -= daysDifference*1000*60*60*24
- 
-    var hoursDifference     = Math.floor(difference/1000/60/60);
-    difference              -= hoursDifference*1000*60*60
- 
-    var minutesDifference   = Math.floor(difference/1000/60);
-    difference              -= minutesDifference*1000*60
- 
-    var secondsDifference   = Math.floor(difference/1000);
-    
-    var countdown = "Suggestions " + hoursDifference + ":" + minutesDifference + ":" + secondsDifference;
-    
-    this.suggestlistHeader.setTitle(countdown);
-    
-    console.log(countdown);
+        var difference = expDate.getTime() - curDate.getTime();
+        
+        if (difference > 0)
+        {     
+            var daysDifference      = Math.floor(difference/1000/60/60/24);
+            difference              -= daysDifference*1000*60*60*24
+         
+            var hoursDifference     = Math.floor(difference/1000/60/60);
+            difference              -= hoursDifference*1000*60*60
+         
+            var minutesDifference   = Math.floor(difference/1000/60);
+            difference              -= minutesDifference*1000*60
+         
+            var secondsDifference   = Math.floor(difference/1000);
+            
+            var hourStr = (hoursDifference   < 10 ? '0' : '') + hoursDifference;
+            var minStr  = (minutesDifference < 10 ? '0' : '') + minutesDifference;
+            var secStr  = (secondsDifference < 10 ? '0' : '') + secondsDifference;
+            
+            var countdown = "Suggestions " + hourStr + ": " + minStr + ": " + secStr;
+            
+            MainApp.app.eventViewer.suggestlistHeader.setTitle(countdown);
+        }
+        else
+        {
+            var str = "Time is Up! Decision is final";
+            MainApp.app.eventViewer.suggestlistHeader.setTitle(str);
+            clearInterval(MainApp.app.eventViewer.tickid);
+        }
+    }
 } 
 
 ///////////////////////////////////////////////////////////////////////
