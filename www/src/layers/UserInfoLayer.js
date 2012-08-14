@@ -20,11 +20,17 @@ function UserInfoLayer()
             {
             }
         },
+        
+        unload : function()
+        {
+            MainApp.app.userInfoScreen.destroy(); 
+            MainApp.app.userInfoForm.destroy(); 
+        },
+        
+        //GOTO function
+        goTo : function()
+        {
+            MainApp.app.userInfoScreen.goTo(DIR_FORW);   
+        }
     });
-    
-    //GOTO function
-    this.goTo = function()
-    {
-        MainApp.app.userInfoScreen.goTo(DIR_FORW);   
-    };
 }

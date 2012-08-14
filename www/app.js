@@ -37,13 +37,9 @@ MainApp = Ext.application(
         this.database     = new DataBaseInterface();
         this.cameraUtil   = new CameraUtils();
         this.locationUtil = new GeoLocation();
-        this.environment  = new Environment();
         
         //Create screens
-        this.instructPop        = new InstructionPop();
-        this.eventBroswer       = new EventBrowser();
         this.newEventForm       = new NewEventForm();
-        this.newEventEditor     = new NewEventEditor();
         this.newEventMenu       = new NewEventMenu();
         this.eventMap           = new EventMap();
         this.loginScreen        = new LoginScreen();
@@ -57,13 +53,11 @@ MainApp = Ext.application(
         this.profileViewer      = new ProfileView();
         this.guestList          = new GuestList();
         this.contactList        = new ContactsList();
-        this.chatWindow         = new ChatWindow();
         this.suggestViewer      = new SuggestViewer();
         this.newSuggestMenu     = new NewSuggestMenu();
                           
         //Create the layers
         this.newEventLayer    = new NewEventLayer();
-        this.browseEventLayer = new BrowseEventLayer();
         this.userInfoLayer    = new UserInfoLayer();
         this.calendarLayer    = new CalendarLayer();
         this.friendsLayer     = new FriendsLayer();

@@ -8,9 +8,21 @@ function FriendsList()
 {
     //Create event board...
     this.create      = CreateFriendsList;
+    this.destroy     = DestroyFriendsList;
     this.goTo        = GoToFriendsList;
     
-    this.screen = this.create();
+    this.screen      = new Ext.Panel(
+    {
+        cls     : 'blankPage',
+        layout  : 'vbox',
+        listeners:
+        {
+            deactivate : function ()
+            {
+                MainApp.app.friendsList.destroy();
+            }
+        },
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -19,6 +31,8 @@ function FriendsList()
 
 function CreateFriendsList()
 {
+    this.destroy();
+    
     //Button for submission
     this.localHeader  = Ext.create('Ext.TitleBar',
     {
@@ -69,12 +83,12 @@ function CreateFriendsList()
     csstemp    += '</div>';
     csstemp    += '</tpl>';
     
-    var screen = Ext.create('Ext.List', 
+    this.list = Ext.create('Ext.List', 
     {
         iconCls    : 'team',
         cls        : 'listclass',
         title      : 'Your Friends',
-        fullscreen : true,
+        flex       :  1,
                             
         store: MainApp.app.database.friendStore,
         itemTpl: csstemp,
@@ -93,13 +107,28 @@ function CreateFriendsList()
         }
     });
     
-    return screen;
+    this.screen.insert(0, this.list);
+}
+
+///////////////////////////////////////////////////////////////////////
+
+function DestroyFriendsList()
+{
+    var items = this.screen.getItems();
+    
+    //Iterate and destroy
+    items.each(function(item, index, totalItems)
+    {
+        item.destroy();
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////
 
 function GoToFriendsList( dir, back)
 {
+    this.create();
+    
     MainApp.app.database.getUserFriends();
     MainApp.app.appLayer.currentLayer.animateActiveItem(this.screen, 
                                                         {type: 'slide', direction: dir});

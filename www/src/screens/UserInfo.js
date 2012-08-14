@@ -8,10 +8,21 @@ function UserInfoScreen()
 {
     //Create event board...
     this.create       = CreateUserInfoScreen;
+    this.destroy      = DestroyUserInfoScreen;
     this.loadData     = LoadUserData;
     this.goTo         = GoToUserInfoScreen;
     
-    this.screen       = this.create();
+    this.screen       = new Ext.Panel(
+    {
+        cls  : 'blankPage',
+        listeners:
+        {
+            deactivate : function ()
+            {
+                MainApp.app.userInfoScreen.destroy();
+            }
+        },
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -20,6 +31,8 @@ function UserInfoScreen()
 
 function CreateUserInfoScreen()
 {
+    this.destroy();
+    
     this.localHeader = Ext.create('Ext.TitleBar',
     {
         title  : '<div class="way">YOUR </div><div class="word"> PROFILE</div>',
@@ -55,21 +68,22 @@ function CreateUserInfoScreen()
          }]
      }); 
 
-    var screen  = new Ext.Panel(
+    
+     //Add this
+     this.screen.insert(0, this.localHeader);
+}
+
+///////////////////////////////////////////////////////////////////////
+
+function DestroyUserInfoScreen()
+{
+    var items = this.screen.getItems();
+    
+    //Iterate and destroy
+    items.each(function(item, index, totalItems)
     {
-        title      : 'Your Bio',
-        cls        : 'blankPage',
-        items      : [this.localHeader],
-
-        listeners:
-        {
-            activate:function()
-            {
-            }
-        },
+        item.destroy();
     });
-
-    return screen;
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -84,6 +98,9 @@ function LoadUserData( data )
 
 function GoToUserInfoScreen( dir, back )
 {
+    //Build the parts
+    this.create();
+    
     MainApp.app.appLayer.currentLayer.animateActiveItem(this.screen,
                                    {type: 'slide', direction: dir});
 }

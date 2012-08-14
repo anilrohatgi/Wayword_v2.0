@@ -22,6 +22,13 @@ function FriendsLayer()
             {
             }
         },
+        
+        unload : function()
+        {
+            MainApp.app.friendsList.destroy(); 
+            MainApp.app.profileViewer.destroy(); 
+            MainApp.app.contactList.destroy();
+        },
                                
         //GOTO function
         goTo : function()

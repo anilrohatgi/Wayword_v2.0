@@ -18,7 +18,6 @@ function NewEventLayer()
                 MainApp.app.newEventMenu.screen,
                 MainApp.app.calendarScreen.screen,
                 MainApp.app.eventMap.screen,
-                MainApp.app.newEventEditor.screen,
                 MainApp.app.inviteList.screen],
 
         listeners:

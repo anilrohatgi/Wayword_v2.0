@@ -14,7 +14,6 @@ function CalendarLayer()
         cls     : 'blankPage',
 
         items: [MainApp.app.eventList.screen,
-                MainApp.app.chatWindow.screen,
                 MainApp.app.calendarScreen.screen,
                 MainApp.app.eventViewer.screen,
                 MainApp.app.suggestViewer.screen,
@@ -34,9 +33,6 @@ function CalendarLayer()
         //GOTO function
         goTo : function()
         {
-            MainApp.app.appLayer.layer.animateActiveItem(this, 
-                                              {type: 'slide', direction: DIR_FORW});
-            
             MainApp.app.eventList.goTo(DIR_FORW);   
         }
                             

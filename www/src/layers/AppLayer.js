@@ -9,7 +9,7 @@ var DIR_FORW = 'left';
 
 function AppLayer()
 {
-    this.currentLayer = MainApp.app.browseEventLayer.layer;
+    this.currentLayer = MainApp.app.newEventLayer.layer;
     
     //Here is the holder screen.
     this.layer = Ext.create('Ext.TabPanel', 
@@ -22,8 +22,8 @@ function AppLayer()
             styleHtmlContent: true
         },
                                   
-        items: [MainApp.app.calendarLayer.layer,
-                MainApp.app.newEventLayer.layer,
+        items: [MainApp.app.newEventLayer.layer,
+                MainApp.app.calendarLayer.layer,
                 MainApp.app.friendsLayer.layer,
                 MainApp.app.userInfoLayer.layer],
         
@@ -35,6 +35,13 @@ function AppLayer()
                             
             activeitemchange : function(tabPanel, tab, oldTab)
             {
+                //destroy old tab
+                if (oldTab.unload)
+                {
+                    oldTab.unload();
+                }
+            
+                //go to new tab
                 MainApp.app.appLayer.currentLayer = tab;
                 if (tab.goTo)
                 {

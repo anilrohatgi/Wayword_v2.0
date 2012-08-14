@@ -242,8 +242,6 @@ function CreateNearByStore()
     //When this store loads, we should populate the screen..
     store.on('load', function () 
     {
-        MainApp.app.eventBroswer.loadActiveEvents(MainApp.app.database.eventsNearByStore);
-        MainApp.app.calendarScreen.refresh(MainApp.app.database.eventsNearByStore);
     });
     
     return store;
@@ -505,8 +503,6 @@ function CreateTemplateStore()
     //When this store loads, we should populate the screen..
     store.on('load', function () 
     {
-        //Include all of the templates in the browser
-        MainApp.app.eventBroswer.loadTemplates();
     });
     
     return store;

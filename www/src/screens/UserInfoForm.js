@@ -8,12 +8,33 @@ function UserInfoForm()
 {
     //Create event board...
     this.create      = CreateUserInfoFormScreen;
+    this.destroy     = DestroyUserInfoFormScreen
     this.updateThumb = UpdateUserThumb;
     this.refresh     = PopulateUserForm;
     this.goTo        = GoToUserForm;
     
+    this.screen = Ext.create('Ext.form.Panel',
+    {
+        title      : 'Edit Profile',
+        scrollable : 'vertical',
+        cls        : 'blankPage',
+        
+        layout: 
+        {
+            type: 'vbox',
+            pack: 'center'                        
+        },
+        
+        listeners:
+        {
+            deactivate : function ()
+            {
+                MainApp.app.userInfoForm.destroy();
+            }
+        },
+	});
+    
     //set your thumbnail.
-    this.screen = this.create();
     this.updateThumb("Media/camera.jpg");
 }
 
@@ -23,6 +44,8 @@ function UserInfoForm()
 
 function CreateUserInfoFormScreen()
 {
+    this.destroy();
+    
     //Button for submission
     this.backButton =  Ext.create('Ext.Button', 
     { 
@@ -100,7 +123,10 @@ function CreateUserInfoFormScreen()
         items : [this.localHeader,form]
 	});
     
-    screen.element.on(
+    this.screen.insert(0, this.localHeader);
+    this.screen.insert(1, form);
+    
+    this.screen.element.on(
     {
         delegate: 'img',
         tap: function (e) 
@@ -109,8 +135,19 @@ function CreateUserInfoFormScreen()
             MainApp.app.cameraUtil.camMenu.show();
         }
     });
+}
+
+///////////////////////////////////////////////////////////////////////
+
+function DestroyUserInfoFormScreen()
+{  
+    var items = this.screen.getItems();
     
-    return screen;
+    //Iterate and destroy
+    items.each(function(item, index, totalItems)
+    {
+        item.destroy();
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -181,6 +218,8 @@ function UpdateUserThumb(thumb)
 
 function GoToUserForm(dir, back)
 {
+    this.create();
+    
     if (back) this.back = back;
     this.refresh();
 

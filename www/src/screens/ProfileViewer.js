@@ -8,10 +8,21 @@ function ProfileView()
 {
     //Create event board...
     this.create       = CreateProfileViewScreen;
+    this.destroy      = DestroyProfileViewScreen
     this.loadData     = BuildUserProfile;
     this.goTo         = GoToProfViewScreen;
     
-    this.screen       = this.create();
+    this.screen    = new Ext.Panel(
+    {
+        cls        : 'blankPage',
+        listeners:
+        {
+            deactivate:function()
+            {
+                MainApp.app.profileViewer.destroy();
+            }
+        },
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -20,6 +31,8 @@ function ProfileView()
 
 function CreateProfileViewScreen()
 {
+    this.destroy();
+    
     this.backButton =  Ext.create('Ext.Button', 
     { 
         text: 'BACK',
@@ -91,19 +104,20 @@ function CreateProfileViewScreen()
         [this.backButton, {xtype: 'spacer'}, this.addButton, this.deleteButton]
     });
     
-    var screen  = new Ext.Panel(
-    {
-        cls        : 'blankPage',
-        items : [this.localHeader],
-        listeners:
-        {
-            activate:function()
-            {
-            }
-        },
-    });
+    this.screen.insert(0, this.localHeader);
+}
 
-    return screen;
+///////////////////////////////////////////////////////////////////////
+
+function DestroyProfileViewScreen()
+{
+    var items = this.screen.getItems();
+    
+    //Iterate and destroy
+    items.each(function(item, index, totalItems)
+    {
+        item.destroy();
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -122,13 +136,13 @@ function BuildUserProfile( data )
         if (friend)
         {
             //can't re-add a friend
-            this.addButton.disable();
-            this.deleteButton.enable();
+            if (this.addButton)    this.addButton.disable();
+            if (this.deleteButton) this.deleteButton.enable();
         }
         else
         {
-            this.addButton.enable();
-            this.deleteButton.disable();
+            if (this.addButton)    this.addButton.enable();
+            if (this.deleteButton) this.deleteButton.disable();
         }
     }
     else
@@ -147,6 +161,8 @@ function BuildUserProfile( data )
 
 function GoToProfViewScreen(dir, back, data)
 {
+    this.create();
+    
     if (back) this.back = back;
     MainApp.app.appLayer.currentLayer.animateActiveItem(this.screen, 
                                                         {type: 'slide', direction: dir});

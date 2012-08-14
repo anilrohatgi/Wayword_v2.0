@@ -11,10 +11,22 @@ function ContactsList()
 {
     //Create event board...
     this.create      = CreateContactsList;
+    this.destroy     = DestroyContactsList;
     this.goTo        = GoToContactsList;
     this.makeEmails  = MakeContactFriendRequest;
     
-    this.screen = this.create();
+    this.screen      = new Ext.Panel(
+    {
+        cls     : 'blankPage',
+        layout  : 'vbox',
+        listeners:
+        {
+            deactivate : function ()
+            {
+                MainApp.app.contactList.destroy();
+            }
+        },
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -23,6 +35,8 @@ function ContactsList()
 
 function CreateContactsList()
 {
+    this.destroy();
+    
     //Button for submission
     this.backButton =  Ext.create('Ext.Button', 
     { 
@@ -73,11 +87,11 @@ function CreateContactsList()
     csstemp    += '</div>';
     csstemp    += '</tpl>';
     
-    var screen = Ext.create('Ext.List', 
+    this.list = Ext.create('Ext.List', 
     {
         iconCls    : 'team',
         cls        : 'blankPage',
-        fullscreen : true,
+        flex       : 1,
         mode: 'MULTI',
 
         store: MainApp.app.database.contactStore,
@@ -92,7 +106,20 @@ function CreateContactsList()
         }
     });
     
-    return screen;
+    this.screen.insert(0, this.list);
+}
+
+///////////////////////////////////////////////////////////////////////
+
+function DestroyContactsList()
+{
+    var items = this.screen.getItems();
+    
+    //Iterate and destroy
+    items.each(function(item, index, totalItems)
+    {
+        item.destroy();
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -129,6 +156,8 @@ function MakeContactFriendRequest()
 
 function GoToContactsList( dir, back, guid )
 {
+    this.create();
+    
     if (back) this.back = back;
 
     //MainApp.app.database.contactStore.load();
