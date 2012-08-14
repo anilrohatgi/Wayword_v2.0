@@ -125,11 +125,11 @@ function RefreshSuggestMenu()
     var htmlStr = '';
     
     //WHERE
-    htmlStr    += '<div class=".suggestion_panelwhere">';
+    htmlStr    += '<div class="suggestion_panelwhere">';
     htmlStr    += '<img src="Media/Menu/panels/where_a.jpg" class="menu_panelwhere_img" />';
     htmlStr    += '</div>';
     
-    htmlStr    += '<div class=".suggestion_where">';
+    htmlStr    += '<div class="suggestion_where">';
     htmlStr    += '<img src="Media/Menu/menu_buttons/where.png" />';
     htmlStr    += '</div>';
     
@@ -222,7 +222,7 @@ function GoToSuggestMenu( dir, back, guid )
         MainApp.app.newEventForm.reset();
         this.reset();
         MainApp.app.appLayer.currentLayer.animateActiveItem(this.screen, 
-                                                        {type: 'slide', direction: dir});
+                                                        {type: 'pop', direction: dir});
     }
     else
     {
