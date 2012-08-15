@@ -24,14 +24,6 @@ function UserInfoForm()
             type: 'vbox',
             pack: 'center'                        
         },
-        
-        listeners:
-        {
-            deactivate : function ()
-            {
-                MainApp.app.userInfoForm.destroy();
-            }
-        },
 	});
     
     //set your thumbnail.
@@ -44,8 +36,6 @@ function UserInfoForm()
 
 function CreateUserInfoFormScreen()
 {
-    this.destroy();
-    
     //Button for submission
     this.backButton =  Ext.create('Ext.Button', 
     { 
@@ -218,8 +208,6 @@ function UpdateUserThumb(thumb)
 
 function GoToUserForm(dir, back)
 {
-    this.create();
-    
     if (back) this.back = back;
     this.refresh();
 

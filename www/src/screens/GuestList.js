@@ -8,9 +8,14 @@ function GuestList()
 {
     //Create event board...
     this.create      = CreateGuestList;
+    this.destroy     = DestroyGuestList;
     this.goTo        = GoToGuestList;
     
-    this.screen = this.create();
+    this.screen      = new Ext.Panel(
+    {
+        layout: 'vbox',
+        cls   : 'blankPage',
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -19,6 +24,8 @@ function GuestList()
 
 function CreateGuestList()
 {
+    this.destroy();
+    
     //Button for submission
     this.backButton =  Ext.create('Ext.Button', 
     { 
@@ -59,11 +66,11 @@ function CreateGuestList()
     csstemp    += '</div>';
     csstemp    += '</tpl>';
     
-    var screen = Ext.create('Ext.List', 
+    this.list = Ext.create('Ext.List', 
     {
         iconCls    : 'team',
         cls        : 'blankPage',
-        fullscreen : true,
+        flex       : 1,
                             
         store: MainApp.app.database.goingStore,
         itemTpl: csstemp,
@@ -82,7 +89,20 @@ function CreateGuestList()
         }
     });
     
-    return screen;
+    this.screen.insert(0, this.list);
+}
+
+///////////////////////////////////////////////////////////////////////
+
+function DestroyGuestList()
+{
+    var items = this.screen.getItems();
+    
+    //Iterate and destroy
+    items.each(function(item, index, totalItems)
+    {
+        item.destroy();
+    });
 }
                  
 ///////////////////////////////////////////////////////////////////////

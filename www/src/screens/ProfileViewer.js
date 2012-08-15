@@ -15,13 +15,6 @@ function ProfileView()
     this.screen    = new Ext.Panel(
     {
         cls        : 'blankPage',
-        listeners:
-        {
-            deactivate:function()
-            {
-                MainApp.app.profileViewer.destroy();
-            }
-        },
     });
 }
 
@@ -31,8 +24,6 @@ function ProfileView()
 
 function CreateProfileViewScreen()
 {
-    this.destroy();
-    
     this.backButton =  Ext.create('Ext.Button', 
     { 
         text: 'BACK',
@@ -161,8 +152,6 @@ function BuildUserProfile( data )
 
 function GoToProfViewScreen(dir, back, data)
 {
-    this.create();
-    
     if (back) this.back = back;
     MainApp.app.appLayer.currentLayer.animateActiveItem(this.screen, 
                                                         {type: 'slide', direction: dir});

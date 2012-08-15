@@ -33,6 +33,10 @@ function FriendsLayer()
         //GOTO function
         goTo : function()
         {
+            MainApp.app.friendsList.create(); 
+            MainApp.app.profileViewer.create(); 
+            MainApp.app.contactList.create();
+            
             MainApp.app.friendsList.goTo(DIR_FORW);   
         }
     });

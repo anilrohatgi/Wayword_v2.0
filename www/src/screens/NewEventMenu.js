@@ -8,13 +8,30 @@ function NewEventMenu()
 {
     //Create event board...
     this.create         = CreateNewEventMenu;
+    this.destroy        = DestroyNewEventMenu;
     this.createHandler  = CreateNewMenuHandler;
     this.submitEvent    = SubmitNewEvent;
     this.reset          = ResetNewEventMenu;
     this.refresh        = RefreshMenu;
     this.goTo           = GoToEventMenu;
     
-    this.screen         = this.create();
+    this.screen  = new Ext.Panel(
+    {
+        cls   : 'blankPage',
+        layout: 
+        {
+            pack: 'justify',
+            align: 'center'
+        },
+
+        defaults:
+        {
+            iconMask: true,
+            xtype:'button',
+        },
+        
+    });
+    
     this.createHandler();
 }
 
@@ -30,6 +47,7 @@ function CreateNewEventMenu()
         //title   : 'NEW EVENT',
         html : '<div class="way">Way</div><div class="word">Word</div>',
         docked  :'top',
+        zIndex : 50,
         
         items : []                               
     });
@@ -86,7 +104,7 @@ function CreateNewEventMenu()
         }
     });
     
-    var screen = new Ext.Panel(
+    /*this.content = new Ext.Panel(
     {
         cls   : 'blankPage',
         layout: 
@@ -109,9 +127,25 @@ function CreateNewEventMenu()
             {
             },
         },
+    });*/
+    
+    this.screen.insert(0, this.header);
+    this.screen.insert(1, this.submitButton);
+}
+
+///////////////////////////////////////////////////////////////////////
+
+function DestroyNewEventMenu()
+{
+    var items = this.screen.getItems();
+    
+    //Iterate and destroy
+    items.each(function(item, index, totalItems)
+    {
+        item.destroy();
     });
     
-    return screen;
+    //this.timePicker.destroy();
 }
 
 ///////////////////////////////////////////////////////////////////////

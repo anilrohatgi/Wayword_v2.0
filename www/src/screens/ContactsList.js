@@ -19,13 +19,6 @@ function ContactsList()
     {
         cls     : 'blankPage',
         layout  : 'vbox',
-        listeners:
-        {
-            deactivate : function ()
-            {
-                MainApp.app.contactList.destroy();
-            }
-        },
     });
 }
 
@@ -35,8 +28,6 @@ function ContactsList()
 
 function CreateContactsList()
 {
-    this.destroy();
-    
     //Button for submission
     this.backButton =  Ext.create('Ext.Button', 
     { 
@@ -156,8 +147,6 @@ function MakeContactFriendRequest()
 
 function GoToContactsList( dir, back, guid )
 {
-    this.create();
-    
     if (back) this.back = back;
 
     //MainApp.app.database.contactStore.load();

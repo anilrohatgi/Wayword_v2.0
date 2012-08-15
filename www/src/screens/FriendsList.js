@@ -15,13 +15,6 @@ function FriendsList()
     {
         cls     : 'blankPage',
         layout  : 'vbox',
-        listeners:
-        {
-            deactivate : function ()
-            {
-                MainApp.app.friendsList.destroy();
-            }
-        },
     });
 }
 
@@ -87,7 +80,6 @@ function CreateFriendsList()
     {
         iconCls    : 'team',
         cls        : 'listclass',
-        title      : 'Your Friends',
         flex       :  1,
                             
         store: MainApp.app.database.friendStore,
@@ -127,8 +119,6 @@ function DestroyFriendsList()
 
 function GoToFriendsList( dir, back)
 {
-    this.create();
-    
     MainApp.app.database.getUserFriends();
     MainApp.app.appLayer.currentLayer.animateActiveItem(this.screen, 
                                                         {type: 'slide', direction: dir});

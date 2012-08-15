@@ -8,12 +8,17 @@ function EventViewer()
 {
     //Create event board...
     this.create    = CreateEventViewer;
+    this.destroy   = DestroyEventViewer;
     this.viewEvent = ViewEventFromGuid;
     this.refresh   = RefreshEventView;
     this.tick      = UpdateTimer;
     
     this.goTo      = GoToEventViewer;    
-    this.screen    = this.create();
+    this.screen       = new Ext.Panel(
+    {
+        layout: 'vbox',
+        cls   : 'blankPage',
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -187,10 +192,11 @@ function CreateEventViewer()
 
     //////////////////////////////////////////////
     
-    var screen = new Ext.Panel(
+    this.content = new Ext.Panel(
     {
         layout  : 'card',
         layout  : 'vbox',
+        flex    : 1,
         items: [this.localHeader, this.mapPanel, this.suggestlistPanel],
 
         listeners:
@@ -206,7 +212,20 @@ function CreateEventViewer()
         },
     });
     
-    return screen;
+    this.screen.insert(0, this.content);
+}
+
+///////////////////////////////////////////////////////////////////////
+
+function DestroyEventViewer()
+{
+    var items = this.screen.getItems();
+    
+    //Iterate and destroy
+    items.each(function(item, index, totalItems)
+    {
+        item.destroy();
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -308,5 +327,5 @@ function GoToEventViewer( dir, back , isEvent)
     this.doCount = true;
     
     MainApp.app.appLayer.currentLayer.animateActiveItem(this.screen, 
-                                                        {type: 'pop', direction: dir});
+                                                        {type: 'slide', direction: dir});
 }

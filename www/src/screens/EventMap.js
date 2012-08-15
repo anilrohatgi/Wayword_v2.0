@@ -10,6 +10,7 @@ function EventMap()
 {
     //Create event board...
     this.create         = CreateEventMap;
+    this.destroy        = DestroyEventMap;
     this.createAutoComp = CreateAutoComplete;
     this.goTo           = GoToEventMap;
     this.addMarker      = LoadNewMarker;
@@ -22,7 +23,11 @@ function EventMap()
     this.lat            = MainApp.app.locationUtil.curlat, 
     this.lon            = MainApp.app.locationUtil.curlon;
     
-    this.screen         = this.create();
+    this.screen         = new Ext.Panel(
+    {
+        layout: 'vbox',
+        cls   : 'blankPage',
+    });
  }
 
 ///////////////////////////////////////////////////////////////////////
@@ -46,12 +51,12 @@ function CreateEventMap()
     
     this.localHeader  = new Ext.Toolbar(
     {
-        title : '<div class="way">PICK </div><div class="word"> PLACE</div>',
+        html : '<div class="way" >PICK </div><div class="word"> PLACE</div>',
         docked: 'top',
         layout: 
         {
             pack: 'justify',
-            align: 'center'
+            align: 'left'
         },
 
         defaults:
@@ -126,10 +131,10 @@ function CreateEventMap()
     this.markerArray = [];
     this.infoPop = new google.maps.InfoWindow();
     
-    var screen = new Ext.Panel(
+    this.content = new Ext.Panel(
     {
-        fullscreen: true,
         layout: 'vbox',
+        flex : 1,
         
         items: 
         [this.localHeader,
@@ -148,7 +153,20 @@ function CreateEventMap()
         },
     });
     
-    return screen;
+    this.screen.insert(0, this.content);
+}
+
+///////////////////////////////////////////////////////////////////////
+
+function DestroyEventMap()
+{
+    var items = this.screen.getItems();
+    
+    //Iterate and destroy
+    items.each(function(item, index, totalItems)
+    {
+        item.destroy();
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////

@@ -8,11 +8,16 @@ function EventList()
 {
     //Create event board...
     this.create      = CreateEventList;
+    this.destroy     = DestroyEventList;
     this.goTo        = GoToEventList;
     
     //set your thumbnail.
     this.index  = 0;
-    this.screen = this.create();
+    this.screen = new Ext.Panel(
+    {
+        cls     : 'blankPage',
+        layout  : 'vbox',
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -48,11 +53,11 @@ function CreateEventList()
     csstemp    += '</list_class>';
     csstemp    += '</tpl>';
     
-    var screen = Ext.create('Ext.List', 
+    this.list = Ext.create('Ext.List', 
     {
         iconCls    : 'note1',
         title      : 'EVENTS',
-        fullscreen : true,
+        flex       :  1,
         cls        : 'blankPage',
         
         items   :[this.localHeader],
@@ -82,7 +87,20 @@ function CreateEventList()
         }
     });
     
-    return screen;
+    this.screen.insert(0, this.list);
+}
+
+///////////////////////////////////////////////////////////////////////
+
+function DestroyEventList()
+{
+    var items = this.screen.getItems();
+    
+    //Iterate and destroy
+    items.each(function(item, index, totalItems)
+    {
+        item.destroy();
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////

@@ -30,6 +30,8 @@ function UserInfoLayer()
         //GOTO function
         goTo : function()
         {
+            MainApp.app.userInfoScreen.create();
+            MainApp.app.userInfoForm.create(); 
             MainApp.app.userInfoScreen.goTo(DIR_FORW);   
         }
     });

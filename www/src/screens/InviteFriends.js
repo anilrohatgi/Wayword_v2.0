@@ -8,12 +8,17 @@ function InviteList()
 {
     //Create event board...
     this.create      = CreateInviteList;
+    this.destroy     = DestroyInviteList;
     this.goTo        = GoToInviteListList;
     this.makeEmails  = MakeEmails;
     this.submit      = SubmitInvites;
     this.ready       = false;
     
-    this.screen      = this.create();
+    this.screen       = new Ext.Panel(
+    {
+        layout: 'vbox',
+        cls   : 'blankPage',
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -74,12 +79,12 @@ function CreateInviteList()
     csstemp    += '</div>';
     csstemp    += '</tpl>';
     
-    var screen = Ext.create('Ext.List', 
+    this.list = Ext.create('Ext.List', 
     {
         iconCls    : 'team',
         cls        : 'blankPage',
         title      : 'Your Friends',
-        fullscreen : true,
+        flex       : 1,
         mode: 'MULTI',
                             
         store: MainApp.app.database.friendStore,
@@ -87,7 +92,19 @@ function CreateInviteList()
         items : [this.localHeader],
     });
     
-    return screen;
+    this.screen.insert(0, this.list);
+}
+///////////////////////////////////////////////////////////////////////
+
+function DestroyInviteList()
+{
+    var items = this.screen.getItems();
+    
+    //Iterate and destroy
+    items.each(function(item, index, totalItems)
+    {
+        item.destroy();
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////

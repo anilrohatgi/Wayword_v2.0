@@ -8,14 +8,18 @@ function NewSuggestMenu()
 {
     //Create event board...
     this.create         = CreateNewSuggestMenu;
+    this.destroy        = DestroyNewSuggestMenu;
     this.createHandler  = CreateNewSuggestHandler;
     this.submitSuggest  = SubmitNewSuggest;
     this.reset          = ResetNewSuggestMenu;
     this.refresh        = RefreshSuggestMenu;
     this.goTo           = GoToSuggestMenu;
     
-    this.screen         = this.create();
-    this.createHandler();
+    this.screen       = new Ext.Panel(
+    {
+        layout: 'vbox',
+        cls   : 'blankPage',
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -61,9 +65,10 @@ function CreateNewSuggestMenu()
         }
     });
     
-    var screen = new Ext.Panel(
+    this.content = new Ext.Panel(
     {
         cls   : 'blankPage',
+        flex  : 1,
         layout: 
         {
             pack: 'justify',
@@ -86,7 +91,21 @@ function CreateNewSuggestMenu()
         },
     });
     
-    return screen;
+    this.screen.insert(0, this.content);
+    this.createHandler();
+}
+
+///////////////////////////////////////////////////////////////////////
+
+function DestroyNewSuggestMenu()
+{
+    var items = this.screen.getItems();
+    
+    //Iterate and destroy
+    items.each(function(item, index, totalItems)
+    {
+        item.destroy();
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -156,17 +175,17 @@ function RefreshSuggestMenu()
         htmlStr    += '</div>';
     }
     
-    this.screen.setHtml(htmlStr);
+    this.content.setHtml(htmlStr);
     
     //Check to see if you can show the submit button.
     if (MainApp.app.calendarScreen.ready &&
         MainApp.app.eventMap.ready)
     {
-        this.submitButton.show();
+        if(this.submitButton) this.submitButton.show();
     }
     else
     {
-        this.submitButton.hide();
+        if(this.submitButton) this.submitButton.hide();
     }
 }
 
@@ -175,7 +194,7 @@ function RefreshSuggestMenu()
 function CreateNewSuggestHandler()
 {
     //Button Handler
-    this.screen.element.on(
+    this.content.element.on(
     {
         delegate: 'div',
         tap: function (e,t) 

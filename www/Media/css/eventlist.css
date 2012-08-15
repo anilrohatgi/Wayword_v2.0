@@ -27,6 +27,7 @@
 .eventlist_textbox place
 {
 	position:relative;
+	float:left;
 	left:0;
 	top:5px;
 	height:30px;
@@ -42,8 +43,9 @@
 .eventlist_textbox date
 {
 	position:relative;
+	float:left;
 	left:0;
-	top:35px;
+	top:0px;
 	height:25px;
 	width:255px;
 	font-family: "Century Gothic", Times, serif;

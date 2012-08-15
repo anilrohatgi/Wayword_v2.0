@@ -40,13 +40,18 @@ function Calendar()
 {
     //Create event board...
     this.create       = CreateCalendarScreen;
+    this.destroy      = DestroyCalendarScreen;
     this.refresh      = PopulateCalendar;
     this.goTo         = GoToEventCalendar;
     this.ready        = false;
     
     this.dateSelect   = new Date();
     
-    this.screen       = this.create();
+    this.screen       = new Ext.Panel(
+    {
+        layout: 'vbox',
+        cls   : 'blankPage',
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -144,15 +149,28 @@ function CreateCalendarScreen()
         MainApp.app.calendarScreen.dateSelect = newDate;
     });
     
-    var screen = Ext.create('Ext.Panel', 
+    this.content = Ext.create('Ext.Panel', 
     {
         title       : 'Calendar',
-        fullscreen  : true,
         layout      : 'fit',
+        flex        : 1,
         items       : [this.localHeader ,this.calendar]
     });
 
-    return screen;
+    this.screen.insert(0, this.content);
+}
+
+///////////////////////////////////////////////////////////////////////
+
+function DestroyCalendarScreen()
+{
+    var items = this.screen.getItems();
+    
+    //Iterate and destroy
+    items.each(function(item, index, totalItems)
+    {
+        item.destroy();
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////

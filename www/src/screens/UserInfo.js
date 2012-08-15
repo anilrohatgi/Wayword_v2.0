@@ -15,13 +15,6 @@ function UserInfoScreen()
     this.screen       = new Ext.Panel(
     {
         cls  : 'blankPage',
-        listeners:
-        {
-            deactivate : function ()
-            {
-                MainApp.app.userInfoScreen.destroy();
-            }
-        },
     });
 }
 
@@ -99,8 +92,6 @@ function LoadUserData( data )
 function GoToUserInfoScreen( dir, back )
 {
     //Build the parts
-    this.create();
-    
     MainApp.app.appLayer.currentLayer.animateActiveItem(this.screen,
                                    {type: 'slide', direction: dir});
 }

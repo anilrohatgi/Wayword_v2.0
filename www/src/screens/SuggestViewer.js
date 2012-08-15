@@ -8,12 +8,17 @@ function SuggestViewer()
 {
     //Create event board...
     this.create         = CreateSuggestViewer;
+    this.destroy        = DestroySuggestViewer;
     this.viewSuggestion = ViewSuggestFromGuid;
     this.refreshVotes   = RefreshVotes;
     
     this.goTo      = GoToSuggestViewer; 
     this.vote      = 0;
-    this.screen    = this.create();
+    this.screen    = new Ext.Panel(
+    {
+        layout: 'vbox',
+        cls   : 'blankPage',
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -143,10 +148,11 @@ function CreateSuggestViewer()
 
     //////////////////////////////////////////////
     
-    var screen = new Ext.Panel(
+    this.content = new Ext.Panel(
     {
         layout  : 'vbox',
         cls     : 'blankPage',
+        flex    : 1,
         items: [this.localHeader, this.topPanel, this.bottomPanel],
 
         listeners:
@@ -157,7 +163,20 @@ function CreateSuggestViewer()
         },
     });
     
-    return screen;
+    this.screen.insert(0, this.content);
+}
+
+///////////////////////////////////////////////////////////////////////
+
+function DestroySuggestViewer(store, guid)
+{
+    var items = this.screen.getItems();
+    
+    //Iterate and destroy
+    items.each(function(item, index, totalItems)
+    {
+        item.destroy();
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -242,7 +261,6 @@ function RefreshVotes()
 function GoToSuggestViewer( dir, back , isEvent)
 {
     if (back) this.back = back;
-    
     MainApp.app.appLayer.currentLayer.animateActiveItem(this.screen, 
                                                         {type: 'pop', direction: dir});
 }
