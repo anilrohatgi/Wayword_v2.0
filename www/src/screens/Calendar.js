@@ -51,6 +51,28 @@ function Calendar()
     {
         layout: 'vbox',
         cls   : 'blankPage',
+        
+        hideAnimation: 
+        {
+            listeners: 
+            {
+                animationend: function()
+                {
+                    MainApp.app.calendarScreen.destroy();
+                }
+            }
+        },
+        
+        showAnimation: 
+        {
+            listeners: 
+            {
+                animationstart: function()
+                {
+                    MainApp.app.calendarScreen.create();
+                }
+            }
+        },
     });
 }
 
@@ -60,6 +82,8 @@ function Calendar()
 
 function CreateCalendarScreen()
 {
+    if (this.content) return;
+
     //Button for submission
     this.backButton =  Ext.create('Ext.Button', 
     { 

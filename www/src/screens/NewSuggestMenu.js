@@ -19,6 +19,28 @@ function NewSuggestMenu()
     {
         layout: 'vbox',
         cls   : 'blankPage',
+        
+        hideAnimation: 
+        {
+            listeners: 
+            {
+                animationend: function()
+                {
+                    MainApp.app.newSuggestMenu.destroy();
+                }
+            }
+        },
+        
+        showAnimation: 
+        {
+            listeners: 
+            {
+                animationstart: function()
+                {
+                    MainApp.app.newSuggestMenu.create();
+                }
+            }
+        },
     });
 }
 

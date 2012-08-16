@@ -27,6 +27,27 @@ function EventMap()
     {
         layout: 'vbox',
         cls   : 'blankPage',
+        hideAnimation: 
+        {
+            listeners: 
+            {
+                animationend: function()
+                {
+                    MainApp.app.eventMap.destroy();
+                }
+            }
+        },
+        
+        showAnimation: 
+        {
+            listeners: 
+            {
+                animationstart: function()
+                {
+                    MainApp.app.eventMap.create();
+                }
+            }
+        },
     });
  }
 
@@ -36,6 +57,8 @@ function EventMap()
 
 function CreateEventMap()
 {
+    if (this.content) return;
+    
     this.backButton =  Ext.create('Ext.Button', 
     { 
         text: 'BACK',

@@ -18,6 +18,30 @@ function EventViewer()
     {
         layout: 'vbox',
         cls   : 'blankPage',
+        
+        hideAnimation: 
+        {
+            listeners: 
+            {
+                animationend: function()
+                {
+                    MainApp.app.eventViewer.destroy();
+                    console.log("KILL");
+                }
+            }
+        },
+        
+        showAnimation: 
+        {
+            listeners: 
+            {
+                animationstart: function()
+                {
+                    MainApp.app.eventViewer.create();
+                    console.log("START");
+                }
+            }
+        },
     });
 }
 

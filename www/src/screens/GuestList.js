@@ -15,6 +15,27 @@ function GuestList()
     {
         layout: 'vbox',
         cls   : 'blankPage',
+        hideAnimation: 
+        {
+            listeners: 
+            {
+                animationend: function()
+                {
+                    MainApp.app.guestList.destroy();
+                }
+            }
+        },
+        
+        showAnimation: 
+        {
+            listeners: 
+            {
+                animationstart: function()
+                {
+                    MainApp.app.guestList.create();
+                }
+            }
+        },
     });
 }
 

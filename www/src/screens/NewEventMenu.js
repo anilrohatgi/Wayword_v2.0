@@ -17,17 +17,30 @@ function NewEventMenu()
     
     this.screen  = new Ext.Panel(
     {
+        layout: 'vbox',
         cls   : 'blankPage',
-        layout: 
+        
+        hideAnimation: 
         {
-            pack: 'justify',
-            align: 'center'
+            listeners: 
+            {
+                animationend: function()
+                {
+                    MainApp.app.newEventMenu.destroy();
+                }
+            }
         },
-
-        defaults:
+        
+        showAnimation: 
         {
-            iconMask: true,
-            xtype:'button',
+            listeners: 
+            {
+                animationstart: function()
+                {
+                    MainApp.app.newEventMenu.create();
+                    MainApp.app.newEventMenu.refresh();
+                }
+            }
         },
         
     });
@@ -104,9 +117,10 @@ function CreateNewEventMenu()
         }
     });
     
-    /*this.content = new Ext.Panel(
+    this.content = new Ext.Panel(
     {
         cls   : 'blankPage',
+        flex  : 1,
         layout: 
         {
             pack: 'justify',
@@ -127,10 +141,12 @@ function CreateNewEventMenu()
             {
             },
         },
-    });*/
+    });
     
-    this.screen.insert(0, this.header);
-    this.screen.insert(1, this.submitButton);
+    this.screen.insert(0, this.content);
+    
+    //this.screen.insert(0, this.header);
+    //this.screen.insert(1, this.submitButton);
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -234,18 +250,21 @@ function RefreshMenu()
         htmlStr    += '</div>';
     }
     
-    this.screen.setHtml(htmlStr);
-    
-    //Check to see if you can show the submit button.
-    if (MainApp.app.calendarScreen.ready &&
-        MainApp.app.inviteList.ready     &&
-        MainApp.app.eventMap.ready)
+    if (this.content)
     {
-        this.submitButton.show();
-    }
-    else
-    {
-        this.submitButton.hide();
+        this.content.setHtml(htmlStr);
+        
+        //Check to see if you can show the submit button.
+        if (MainApp.app.calendarScreen.ready &&
+            MainApp.app.inviteList.ready     &&
+            MainApp.app.eventMap.ready)
+        {
+            this.submitButton.show();
+        }
+        else
+        {
+            this.submitButton.hide();
+        }
     }
 }
 
@@ -297,8 +316,6 @@ function GoToEventMenu( dir, back, mode )
 {
     this.mode = mode;
     if (back) this.back = back;
-    
-    this.refresh();
     
     if (dir == DIR_FORW)
     {

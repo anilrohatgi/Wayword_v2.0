@@ -23,15 +23,11 @@ function UserInfoLayer()
         
         unload : function()
         {
-            MainApp.app.userInfoScreen.destroy(); 
-            MainApp.app.userInfoForm.destroy(); 
         },
         
         //GOTO function
         goTo : function()
         {
-            MainApp.app.userInfoScreen.create();
-            MainApp.app.userInfoForm.create(); 
             MainApp.app.userInfoScreen.goTo(DIR_FORW);   
         }
     });

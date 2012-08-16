@@ -17,6 +17,27 @@ function EventList()
     {
         cls     : 'blankPage',
         layout  : 'vbox',
+        hideAnimation: 
+        {
+            listeners: 
+            {
+                animationend: function()
+                {
+                    MainApp.app.eventList.destroy();
+                }
+            }
+        },
+        
+        showAnimation: 
+        {
+            listeners: 
+            {
+                animationstart: function()
+                {
+                    MainApp.app.eventList.create();
+                }
+            }
+        },
     });
 }
 

@@ -15,6 +15,27 @@ function FriendsList()
     {
         cls     : 'blankPage',
         layout  : 'vbox',
+        hideAnimation: 
+        {
+            listeners: 
+            {
+                animationend: function()
+                {
+                    MainApp.app.friendsList.destroy();
+                }
+            }
+        },
+        
+        showAnimation: 
+        {
+            listeners: 
+            {
+                animationstart: function()
+                {
+                    MainApp.app.friendsList.create();
+                }
+            }
+        },
     });
 }
 

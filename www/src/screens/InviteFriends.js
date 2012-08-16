@@ -18,6 +18,27 @@ function InviteList()
     {
         layout: 'vbox',
         cls   : 'blankPage',
+        hideAnimation: 
+        {
+            listeners: 
+            {
+                animationend: function()
+                {
+                    MainApp.app.inviteList.destroy();
+                }
+            }
+        },
+        
+        showAnimation: 
+        {
+            listeners: 
+            {
+                animationstart: function()
+                {
+                    MainApp.app.inviteList.create();
+                }
+            }
+        },
     });
 }
 
@@ -27,6 +48,8 @@ function InviteList()
 
 function CreateInviteList()
 {
+    if (this.list) return;
+    
     //Button for submission
     this.backButton =  Ext.create('Ext.Button', 
     { 

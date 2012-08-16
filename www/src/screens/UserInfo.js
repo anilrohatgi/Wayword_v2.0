@@ -15,6 +15,27 @@ function UserInfoScreen()
     this.screen       = new Ext.Panel(
     {
         cls  : 'blankPage',
+        hideAnimation: 
+        {
+            listeners: 
+            {
+                animationend: function()
+                {
+                    MainApp.app.userInfoScreen.destroy();
+                }
+            }
+        },
+        
+        showAnimation: 
+        {
+            listeners: 
+            {
+                animationstart: function()
+                {
+                    MainApp.app.userInfoScreen.create();
+                }
+            }
+        },
     });
 }
 

@@ -18,6 +18,27 @@ function SuggestViewer()
     {
         layout: 'vbox',
         cls   : 'blankPage',
+        hideAnimation: 
+        {
+            listeners: 
+            {
+                animationend: function()
+                {
+                    MainApp.app.suggestViewer.destroy();
+                }
+            }
+        },
+        
+        showAnimation: 
+        {
+            listeners: 
+            {
+                animationstart: function()
+                {
+                    MainApp.app.suggestViewer.create();
+                }
+            }
+        },
     });
 }
 

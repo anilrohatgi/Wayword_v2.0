@@ -19,6 +19,27 @@ function ContactsList()
     {
         cls     : 'blankPage',
         layout  : 'vbox',
+        hideAnimation: 
+        {
+            listeners: 
+            {
+                animationend: function()
+                {
+                    MainApp.app.contactList.destroy();
+                }
+            }
+        },
+        
+        showAnimation: 
+        {
+            listeners: 
+            {
+                animationstart: function()
+                {
+                    MainApp.app.contactList.create();
+                }
+            }
+        },
     });
 }
 

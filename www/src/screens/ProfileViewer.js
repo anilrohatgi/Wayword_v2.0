@@ -15,6 +15,27 @@ function ProfileView()
     this.screen    = new Ext.Panel(
     {
         cls        : 'blankPage',
+        hideAnimation: 
+        {
+            listeners: 
+            {
+                animationend: function()
+                {
+                    MainApp.app.profileViewer.destroy();
+                }
+            }
+        },
+        
+        showAnimation: 
+        {
+            listeners: 
+            {
+                animationstart: function()
+                {
+                    MainApp.app.profileViewer.create();
+                }
+            }
+        },
     });
 }
 
