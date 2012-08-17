@@ -38,6 +38,7 @@ function NewSuggestMenu()
                 animationstart: function()
                 {
                     MainApp.app.newSuggestMenu.create();
+                    MainApp.app.newSuggestMenu.refresh();
                 }
             }
         },
@@ -197,7 +198,7 @@ function RefreshSuggestMenu()
         htmlStr    += '</div>';
     }
     
-    this.content.setHtml(htmlStr);
+    if (this.content) this.content.setHtml(htmlStr);
     
     //Check to see if you can show the submit button.
     if (MainApp.app.calendarScreen.ready &&
@@ -253,8 +254,6 @@ function ResetNewSuggestMenu()
 function GoToSuggestMenu( dir, back, guid )
 {
     if (back) this.back = back;
-    
-    this.refresh();
     
     if (dir == DIR_FORW)
     {

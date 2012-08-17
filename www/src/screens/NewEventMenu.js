@@ -144,9 +144,6 @@ function CreateNewEventMenu()
     });
     
     this.screen.insert(0, this.content);
-    
-    //this.screen.insert(0, this.header);
-    //this.screen.insert(1, this.submitButton);
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -161,7 +158,7 @@ function DestroyNewEventMenu()
         item.destroy();
     });
     
-    //this.timePicker.destroy();
+    if(this.timePicker) this.timePicker.destroy();
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -208,7 +205,7 @@ function RefreshMenu()
     htmlStr    += '</div>';
     
     htmlStr    += '<div class="menu_who">';
-    htmlStr    += '<img src="Media/Menu/menu_buttons/who.png" />';
+    htmlStr    += '<img src="Media/Menu/menu_buttons/who.png" class="menu_panelwho_img"/>';
     htmlStr    += '</div>';
     
     if (MainApp.app.inviteList.ready)
@@ -224,7 +221,7 @@ function RefreshMenu()
     htmlStr    += '</div>';
     
     htmlStr    += '<div class="menu_where">';
-    htmlStr    += '<img src="Media/Menu/menu_buttons/where.png" />';
+    htmlStr    += '<img src="Media/Menu/menu_buttons/where.png" class="menu_panelwhere_img"/>';
     htmlStr    += '</div>';
     
     if (MainApp.app.eventMap.ready)
@@ -240,7 +237,7 @@ function RefreshMenu()
     htmlStr    += '</div>';
     
     htmlStr    += '<div class="menu_when">';
-    htmlStr    += '<img src="Media/Menu/menu_buttons/when.png" />';
+    htmlStr    += '<img src="Media/Menu/menu_buttons/when.png" class="menu_panelwhen_img"/>';
     htmlStr    += '</div>';
     
     if (MainApp.app.calendarScreen.ready)

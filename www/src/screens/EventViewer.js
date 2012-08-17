@@ -26,7 +26,6 @@ function EventViewer()
                 animationend: function()
                 {
                     MainApp.app.eventViewer.destroy();
-                    console.log("KILL");
                 }
             }
         },
@@ -38,7 +37,6 @@ function EventViewer()
                 animationstart: function()
                 {
                     MainApp.app.eventViewer.create();
-                    console.log("START");
                 }
             }
         },
@@ -113,6 +111,14 @@ function CreateEventViewer()
     
     //////////////////////////////////////////////
     
+    this.headerPanel = new Ext.Panel(
+    {
+        layout  : 'vbox',
+        flex    : 1,
+    });
+    
+    //////////////////////////////////////////////
+    
     var csstemp = '<tpl for=".">';
     csstemp    += '<div class="event_suggestion">';
     csstemp    += '<place>{place}</place>';
@@ -142,6 +148,8 @@ function CreateEventViewer()
         {
             itemtap: function(view, index, item, e) 
             {
+                MainApp.app.eventViewer.suggestSheet.hide();
+                
                 var record  = view.getStore().getAt(index);
                 var guid    = record.get('guid');
                 
@@ -157,17 +165,49 @@ function CreateEventViewer()
     
     this.suggestlistHeader =  Ext.create('Ext.Toolbar',
     {
-        ui      : 'subtitle',
-        cls     : 'subtitle',
-        height  : 30,
         docked  : 'top',
+        cls     : 'subtitle',
+        ui      : 'subtitle',
+        
+        items :
+        [{
+            xtype: 'button',
+            text : 'Cancel',
+            handler: function()
+            {
+                MainApp.app.eventViewer.suggestSheet.hide();
+            }
+        }]
     });
     
-    this.suggestlistPanel = new Ext.Panel(
+    this.suggestSheet = Ext.create('Ext.ActionSheet', 
     {
-        layout  : 'vbox',
-        flex    : 4,
-        items   : [this.suggestlistHeader, this.suggestList],
+        layout: 'fit',
+        border: 0,
+        height: 300,
+        hidden : true,
+        items:[this.suggestlistHeader, this.suggestList]
+    });
+
+    Ext.Viewport.add(this.suggestSheet);
+    this.suggestSheet.hide();
+    
+    this.suggestButton = Ext.create('Ext.Button', 
+    {
+        text    : 'Suggestions',
+        ui      : 'greybutton',
+        docked  : 'bottom',
+        handler: function () 
+        { 
+            if (MainApp.app.eventViewer.suggestSheet.isHidden())
+            {
+                MainApp.app.eventViewer.suggestSheet.show();
+            }
+            else
+            {
+                MainApp.app.eventViewer.suggestSheet.hide();
+            }
+        }
     });
     
     //////////////////////////////////////////////
@@ -197,21 +237,12 @@ function CreateEventViewer()
     });
     
     this.infoPop = new google.maps.InfoWindow();
-
-    this.mapHeader =  Ext.create('Ext.Toolbar',
-    {
-        ui      : 'subtitle',
-        cls     : 'subtitle',
-        height  : 30,
-        title   : 'TOP SUGGESTION',
-        docked  : 'top',
-    });
     
     this.mapPanel = new Ext.Panel(
     {
         layout  : 'vbox',
         flex    : 6,
-        items   : [this.mapHeader, this.map],
+        items   : [this.map],
     });
 
     //////////////////////////////////////////////
@@ -221,7 +252,7 @@ function CreateEventViewer()
         layout  : 'card',
         layout  : 'vbox',
         flex    : 1,
-        items: [this.localHeader, this.mapPanel, this.suggestlistPanel],
+        items: [this.localHeader, this.headerPanel, this.mapPanel, this.suggestButton],
 
         listeners:
         {
@@ -250,6 +281,8 @@ function DestroyEventViewer()
     {
         item.destroy();
     });
+    
+    clearInterval(MainApp.app.eventViewer.tickid);
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -328,14 +361,18 @@ function UpdateTimer()
             var minStr  = (minutesDifference < 10 ? '0' : '') + minutesDifference;
             var secStr  = (secondsDifference < 10 ? '0' : '') + secondsDifference;
             
-            var countdown = "Suggestions " + hourStr + ": " + minStr + ": " + secStr;
+            var countdown = hourStr + ": " + minStr + ": " + secStr;
             
-            MainApp.app.eventViewer.suggestlistHeader.setTitle(countdown);
+            var str = '<div class="event_timeleft">Time to decide : </div>';
+            str    += '<div class="event_countdown">' + countdown + '</div>';
+            
+            MainApp.app.eventViewer.headerPanel.setHtml(str);
         }
         else
         {
-            var str = "Time is Up! Decision is final";
-            MainApp.app.eventViewer.suggestlistHeader.setTitle(str);
+            var str = '<div class="event_final">Time is up! Decision Is Made</div>';
+            MainApp.app.eventViewer.headerPanel.setHtml(str);
+            
             clearInterval(MainApp.app.eventViewer.tickid);
         }
     }

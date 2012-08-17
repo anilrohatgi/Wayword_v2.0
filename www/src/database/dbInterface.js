@@ -934,6 +934,7 @@ function CreateNewSuggestion( data, lat, lon, eventGuid )
         success: function(response, opts) 
         {
             //Refresh the store now
+            console.log(response);
             MainApp.app.database.suggestStore.load();
             MainApp.app.eventViewer.refresh();
         }

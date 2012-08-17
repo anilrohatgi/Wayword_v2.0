@@ -50,7 +50,7 @@
 	float:left;
 	position:absolute;
 	left:5px;
-	top:215px;
+	top:10px;
 	width:160px;
 	height:20px;
 	font-family: 'CodeBoldRegular';
@@ -63,9 +63,20 @@
 	float:left;
 	position:absolute;
 	left:175px;
-	top:210px;
+	top:10px;
 	width:135px;
-	top:25px;
+	font-family: 'CodeBoldRegular';
+	font-size:22px;
+	color:white;
+}
+
+.event_final
+{
+	float:left;
+	position:absolute;
+	left:0px;
+	top:10px;
+	width:320px;
 	font-family: 'CodeBoldRegular';
 	font-size:22px;
 	color:white;

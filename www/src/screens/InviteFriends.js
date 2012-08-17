@@ -155,7 +155,7 @@ function MakeEmails(message)
     }
     
     //Iterate through the recipients
-    var friends = this.screen.getSelection();  
+    var friends = this.list.getSelection();  
 
     if (friends && event)
     {
@@ -198,7 +198,7 @@ function SubmitInvites(guid)
                                 MainApp.app.newEventForm.screen.getValues(),
                                 MainApp.app.eventMap.lat,
                                 MainApp.app.eventMap.lon,
-                                MainApp.app.newEventEditor.temp,
+                                "template1",
                                 MainApp.app.newEventMenu.rsvpDate,
                                 "default.jpg",
                                 guid);

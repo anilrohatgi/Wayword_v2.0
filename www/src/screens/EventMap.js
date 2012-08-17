@@ -23,6 +23,8 @@ function EventMap()
     this.lat            = MainApp.app.locationUtil.curlat, 
     this.lon            = MainApp.app.locationUtil.curlon;
     
+    this.zIndex = 0;
+    
     this.screen         = new Ext.Panel(
     {
         layout: 'vbox',
@@ -57,7 +59,10 @@ function EventMap()
 
 function CreateEventMap()
 {
-    if (this.content) return;
+    if (this.content) 
+    {
+        this.screen.removeAll();
+    }
     
     this.backButton =  Ext.create('Ext.Button', 
     { 
@@ -354,8 +359,9 @@ function GoToEventMap(dir, back, guid)
     //Get the data for this guid.
     this.guid = guid;
     this.data = MainApp.app.database.eventsNearByStore.findRecord('guid', this.guid, MainApp.app.eventList.index);
+    
     this.addMarker(this.data);
     
     MainApp.app.appLayer.currentLayer.animateActiveItem(this.screen, 
-                                                        {type: 'flip', direction: dir});
+                                                    {type: 'flip', direction: dir});
 }
