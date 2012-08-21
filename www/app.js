@@ -37,6 +37,7 @@ MainApp = Ext.application(
         this.database     = new DataBaseInterface();
         this.cameraUtil   = new CameraUtils();
         this.locationUtil = new GeoLocation();
+        this.mapUtil      = new MapUtils();
         
         //Create screens
         this.newEventForm       = new NewEventForm();

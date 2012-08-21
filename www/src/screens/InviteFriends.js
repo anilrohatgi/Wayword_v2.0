@@ -126,7 +126,8 @@ function DestroyInviteList()
     //Iterate and destroy
     items.each(function(item, index, totalItems)
     {
-        item.destroy();
+        //item.destroy();
+        item = null;
     });
 }
 

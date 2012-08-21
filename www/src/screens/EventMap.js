@@ -13,7 +13,6 @@ function EventMap()
     this.destroy        = DestroyEventMap;
     this.createAutoComp = CreateAutoComplete;
     this.goTo           = GoToEventMap;
-    this.addMarker      = LoadNewMarker;
     
     this.search         = SubmitRequest;
     this.clearMarkers   = ClearAllMarkers;
@@ -61,9 +60,9 @@ function CreateEventMap()
 {
     if (this.content) 
     {
-        this.screen.removeAll();
+        return;
     }
-    
+ 
     this.backButton =  Ext.create('Ext.Button', 
     { 
         text: 'BACK',
@@ -128,36 +127,14 @@ function CreateEventMap()
         }
     });
     
-    this.map = Ext.create('Ext.Map', 
-    {
-        flex : 7,
-        mapOptions : 
-        {
-            center : new google.maps.LatLng(MainApp.app.locationUtil.curlat, 
-                                            MainApp.app.locationUtil.curlon),  
-            zoom : 12,
-            mapTypeId : google.maps.MapTypeId.ROADMAP,
-            navigationControl: true,
-            navigationControlOptions: 
-            {
-                style: google.maps.NavigationControlStyle.DEFAULT
-            }
-        },
-
-        listeners: 
-        {
-            maprender: function(comp, map) 
-            {
-                setTimeout(function() 
-                {
-                }, 1000);
-            }
-
-        }
-    });
-    
     this.markerArray = [];
     this.infoPop = new google.maps.InfoWindow();
+                                
+    this.map = MainApp.app.mapUtil.getMapPanel();
+    this.gmap = MainApp.app.mapUtil.gmap.getMap();
+    
+    MainApp.app.mapUtil.center( MainApp.app.locationUtil.curlat, 
+                                MainApp.app.locationUtil.curlon ,10);
     
     this.content = new Ext.Panel(
     {
@@ -170,8 +147,8 @@ function CreateEventMap()
             flex : 1,
             xtype: 'toolbar',
             items:[this.searchField, this.submitButton]
-        }, 
-        this.map],
+        },
+        MainApp.app.mapUtil.screen],
 
         listeners:
         {
@@ -193,7 +170,9 @@ function DestroyEventMap()
     //Iterate and destroy
     items.each(function(item, index, totalItems)
     {
-        item.destroy();
+        //item.destroy();
+        this.remove(item, true)
+        item = null;
     });
 }
 
@@ -205,7 +184,7 @@ function CreateAutoComplete()
 {
     var input = document.getElementsByName('searchloc')[0]; 
     this.autocomplete = new google.maps.places.Autocomplete(input);
-    this.autocomplete.bindTo('bounds', this.map.getMap());
+    this.autocomplete.bindTo('bounds', this.gmap.getMap());
     
     google.maps.event.addListener(this.autocomplete, 'place_changed', 
     function() 
@@ -251,7 +230,8 @@ function SubmitRequest(name, useKeyword)
     
     this.clearMarkers();
 
-    service = new google.maps.places.PlacesService(this.map.getMap());
+    console.log(this.gmap);
+    service = new google.maps.places.PlacesService(this.gmap);
     service.search(request, this.processReqest);
 }
 
@@ -279,7 +259,7 @@ function ProcessPlaceRequest(results, status)
             var place = results[i];
             
             var placeLoc = place.geometry.location;
-            var marker = new google.maps.Marker(
+            /*var marker = new google.maps.Marker(
             {
                 map: MainApp.app.eventMap.map.getMap(),
                 position: place.geometry.location
@@ -299,9 +279,26 @@ function ProcessPlaceRequest(results, status)
 
                 MainApp.app.newEventForm.screen.setValues(
                 {
-                      location : place.name
+                     location : place.name
                 });
-            });
+            });*/
+            
+            //Create and set the map
+            var callback = function() 
+            {
+                MainApp.app.eventMap.lat = place.geometry.location.Xa;
+                MainApp.app.eventMap.lon = place.geometry.location.Ya;
+
+                MainApp.app.newEventForm.screen.setValues(
+                {
+                     location : place.name
+                });
+            };
+
+            var info = place.name;
+            MainApp.app.mapUtil.addMarker( place.geometry.location.Xa, 
+                                           place.geometry.location.Ya ,
+                                           info, callback);
         }
     }
     else if (status == google.maps.places.PlacesServiceStatus.ZERO_RESULTS)
@@ -314,44 +311,6 @@ function ProcessPlaceRequest(results, status)
 
 ///////////////////////////////////////////////////////////////////////
 
-function LoadNewMarker(data)
-{
-    if (data)
-    {
-        //Remove the old maker
-        if (this.marker) this.marker.setMap(null);
-
-        //Create marker
-        var loc = new google.maps.LatLng(data.data['lat'], data.data['lon']);
-        this.marker = new google.maps.Marker(
-        {
-            position: loc,
-            title : data.data['place'],
-            map: this.map.getMap()
-        });
-        
-        //Maker listener
-        var info = data.data['place'] + ' - ' + data.data['desc'] + '<br \>'
-             + data.data['address'];
-        
-        this.infoPop = new google.maps.InfoWindow(
-        {
-            content: info
-        }),
-        
-        google.maps.event.addListener(this.marker, 'click', function() 
-        {
-            MainApp.app.eventMap.infoPop.open(MainApp.app.eventMap.map.getMap(), 
-                                              MainApp.app.eventMap.marker);
-        });
-        
-        //Center map
-        this.map.setMapCenter(loc);
-    }
-}
-
-///////////////////////////////////////////////////////////////////////
-
 function GoToEventMap(dir, back, guid)
 {
     if (back) this.back = back;
@@ -359,9 +318,10 @@ function GoToEventMap(dir, back, guid)
     //Get the data for this guid.
     this.guid = guid;
     this.data = MainApp.app.database.eventsNearByStore.findRecord('guid', this.guid, MainApp.app.eventList.index);
-    
-    this.addMarker(this.data);
-    
-    MainApp.app.appLayer.currentLayer.animateActiveItem(this.screen, 
+
+    if (MainApp.app.appLayer.currentLayer.getActiveItem() != this.screen)
+    {
+        MainApp.app.appLayer.currentLayer.animateActiveItem(this.screen, 
                                                     {type: 'flip', direction: dir});
+    }
 }

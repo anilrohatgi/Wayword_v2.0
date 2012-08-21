@@ -19,6 +19,7 @@ function ContactsList()
     {
         cls     : 'blankPage',
         layout  : 'vbox',
+        scrollable : false,
         hideAnimation: 
         {
             listeners: 
@@ -105,6 +106,7 @@ function CreateContactsList()
         cls        : 'blankPage',
         flex       : 1,
         mode: 'MULTI',
+        scrollable : true,
 
         store: MainApp.app.database.contactStore,
         itemTpl: csstemp,

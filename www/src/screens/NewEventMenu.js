@@ -171,7 +171,6 @@ function SubmitNewEvent( deltaTime )
     
     expDate.setTime(expDate.getTime() + hrs);
     
-    console.log(expDate);
     MainApp.app.newEventMenu.rsvpDate = expDate;
     
     //Create a new event
@@ -318,6 +317,7 @@ function GoToEventMenu( dir, back, mode )
     {
         MainApp.app.newEventForm.reset();
         this.reset();
+        
         MainApp.app.appLayer.currentLayer.animateActiveItem(this.screen, 
                                                         {type: 'slide', direction: dir});
     }
