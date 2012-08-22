@@ -18,8 +18,7 @@ function ContactsList()
     this.screen      = new Ext.Panel(
     {
         cls     : 'blankPage',
-        layout  : 'vbox',
-        scrollable : false,
+        height     :  PanelHeight,
         hideAnimation: 
         {
             listeners: 
@@ -104,7 +103,7 @@ function CreateContactsList()
     {
         iconCls    : 'team',
         cls        : 'blankPage',
-        flex       : 1,
+        height     :  PanelHeight,
         mode: 'MULTI',
         scrollable : true,
 

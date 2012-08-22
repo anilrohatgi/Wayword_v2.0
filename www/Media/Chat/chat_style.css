@@ -1,0 +1,80 @@
+@font-face {
+  font-family: "CenturyGothic";
+  src: url('../fonts/Century Gothic.ttf') format('truetype');
+}
+
+.chat
+{
+	position:relative;
+	float:left;
+  	margin-top: 9px;
+	margin-left: 16px;
+  	width: 320px;
+  	font-family: "Century Gothic";
+ 	font-size: 12px;
+ 
+}
+.chat .container_photo
+{
+	float:left;
+	width: 294px;
+    margin-left: 0;
+  	*zoom: 1;
+}
+
+.chat .container_photo .profile 
+{
+	float:left;
+    width: 35px;
+}
+
+.chat .container_photo .profile img
+{
+    max-width:100%;
+}
+
+.chat .container_photo .bubble 
+{
+	z-index: -1;
+	float:left;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	content: "";
+
+	border-width: 8px 10px 8px 17px; 
+	border-image: url(speech_bubble_left_top.png) 8 10 8 17 stretch stretch;
+	-webkit-border-image: url(speech_bubble_left_top.png) 8 10 8 17 stretch stretch;
+	-moz-border-image: url(speech_bubble_left_top.png) 8 10 8 17 stretch stretch;
+	-o-border-image: url(speech_bubble_left_2.png) 8 10 8 17 stretch stretch;
+}
+
+.chat .container_photo .bubble .class7 
+{
+	width: 142px;
+}
+
+.chat .container_photo .bubble .text 
+{
+	font-family: "Century Gothic";
+ 	font-size: 12px;
+	width: 142px;
+	color:#333;
+	font-weight:lighter;
+}
+
+.chat .class9
+{
+	margin-top: 2px;
+  	width: 78px;
+}
+
+.chat .user
+{
+	margin-top: 2px;
+  	width: 78px;
+  	font-weight: bold;
+  	color: #c7c7c7;
+  	letter-spacing: -1px;
+}

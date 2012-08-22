@@ -8,6 +8,7 @@ function ChatWindow()
 {
     //Create functions
     this.create       = CreateChatWindow;
+    this.destroy      = DestroyChatWindow;
     this.goTo         = GoToChatScreen;
     
     //Chat functions
@@ -17,9 +18,35 @@ function ChatWindow()
     this.scrollToBottom = ScrollToBottom;
     
     this.chatId      = 'Wayword_default';
-    
-    this.screen       = this.create();
-    this.pubnub       = this.initChat();
+    this.pubnub      = this.initChat();
+        
+    this.screen       = new Ext.Panel(
+    {
+        fullscreen : true,
+        cls   : 'blankPage',
+        
+        hideAnimation: 
+        {
+            listeners: 
+            {
+                animationend: function()
+                {
+                    MainApp.app.chatWindow.destroy();
+                }
+            }
+        },
+        
+        showAnimation: 
+        {
+            listeners: 
+            {
+                animationstart: function()
+                {
+                    MainApp.app.chatWindow.create();
+                }
+            }
+        },
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -28,6 +55,11 @@ function ChatWindow()
 
 function CreateChatWindow()
 {
+    if (this.content) 
+    {
+        return;
+    }
+    
     this.backButton =  Ext.create('Ext.Button', 
     { 
         text: 'BACK',
@@ -94,9 +126,19 @@ function CreateChatWindow()
 
     //message template
     var messageCss  = '<tpl for=".">';
-    messageCss      +='<div class="bubbledLeft">';
-    messageCss          +='<b>{user}</b>: {message}';
-    messageCss      +='</div></tpl>';
+    messageCss      +='<div class="chat">';
+    
+    messageCss      +='<div class="user">{user}</div>';
+    
+    messageCss      +='<div class="container_photo">';
+    messageCss      += '<div class="profile"><img src="{thumb}"></div>';
+
+    messageCss      +='<div class="bubble">';
+    messageCss      +='<div class="text"> {message}</div>';
+    messageCss      +='</div></div>';
+
+    messageCss      +='</tpl>';
+    
 
     this.messageList = Ext.create('Ext.List', 
     {
@@ -106,14 +148,15 @@ function CreateChatWindow()
         data: 
         [{ 
             user: 'Phil',
-            message: 'lol'
+            message: 'lol',
+            thumb : 'none',
         }],
     });
 
 
-    var screen = Ext.create('Ext.Container', 
-    { 
-        fullscreen: true,
+    this.content = Ext.create('Ext.Container', 
+    {   
+        height  :  PanelHeight,
         layout  : 'vbox',
         items: 
         [this.localHeader,
@@ -128,7 +171,7 @@ function CreateChatWindow()
         },
         {
             xtype: 'toolbar',
-            flex: 1.5,
+            flex: 1,
             items: 
             [
                 this.chatField,
@@ -136,8 +179,23 @@ function CreateChatWindow()
             ]
         }]
     });
+    
+    this.screen.insert(0, this.content);
+}
 
-    return screen;
+///////////////////////////////////////////////////////////////////////
+
+function DestroyChatWindow()
+{
+    var items = this.screen.getItems();
+    
+    //Iterate and destroy
+    items.each(function(item, index, totalItems)
+    {
+        //item.destroy();
+        this.remove(item, true)
+        item = null;
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -172,7 +230,8 @@ function LoadChat()
                 MainApp.app.chatWindow.messageList.getStore().add(
                 {
                       user   : (message.data.user || nobody),
-                      message: message.data.message
+                      message: message.data.message,
+                      thumb  : message.data.thumb,
                 });
 
                 MainApp.app.chatWindow.scrollToBottom();
@@ -205,6 +264,7 @@ function LoadChat()
                 {
                     user: (message.data.user || nobody),
                     message: message.data.message,
+                    thumb  : message.data.thumb,
                 });
             }
 
@@ -223,6 +283,7 @@ function SendChatMessage()
     //Get the user name.
     var userData = MainApp.app.database.getUserData();
     var name = userData['name'];
+    var thumb = userData['thumb'];
     
     MainApp.app.chatWindow.pubnub.publish(
     {
@@ -233,7 +294,8 @@ function SendChatMessage()
             data : 
             {
                 message : Ext.getCmp('chat_input').getValue(),
-                user    : (name || "nobody")
+                user    : (name || "nobody"),
+                thumb   : thumb,
             } 
         },
         callback : function() 

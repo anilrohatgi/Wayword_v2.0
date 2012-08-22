@@ -24,13 +24,8 @@ function CalendarLayer()
         },
 
         items: [MainApp.app.eventList.screen,
-                MainApp.app.calendarScreen.screen,
-                MainApp.app.eventViewer.screen,
-                MainApp.app.suggestViewer.screen,
-                MainApp.app.newSuggestMenu.screen,
+                MainApp.app.chatWindow.screen,
                 MainApp.app.profileViewer.screen,
-                MainApp.app.eventMap.screen,
-                MainApp.app.inviteList.screen,
                 MainApp.app.guestList.screen],
 
         listeners:

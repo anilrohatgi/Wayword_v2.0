@@ -16,7 +16,7 @@ function EventList()
     this.screen = new Ext.Panel(
     {
         cls     : 'blankPage',
-        layout  : 'vbox',
+        fullscreen: true,
         hideAnimation: 
         {
             listeners: 
@@ -78,7 +78,7 @@ function CreateEventList()
     {
         iconCls    : 'note1',
         title      : 'EVENTS',
-        flex       :  1,
+        height     :  PanelHeight,
         cls        : 'blankPage',
         
         items   :[this.localHeader],
@@ -99,11 +99,9 @@ function CreateEventList()
                 
                 MainApp.app.eventList.index = index;
                 
-                MainApp.app.eventViewer.goTo( DIR_FORW , 
+                MainApp.app.chatWindow.goTo( DIR_FORW , 
                                               MainApp.app.eventList,
                                               guid);
-                                              
-                MainApp.app.eventViewer.viewEvent(MainApp.app.database.eventsNearByStore, guid);
             }
         }
     });

@@ -238,9 +238,7 @@ function PopulateCalendar( store )
 function GoToEventCalendar(dir, back, guid)
 {
     this.guid = guid;
-    
-    this.calendar.setViewMode('month');
-    
+
     if (back) this.back = back;
     MainApp.app.appLayer.currentLayer.animateActiveItem(this.screen,
                                    {type: 'flip', direction: dir});
